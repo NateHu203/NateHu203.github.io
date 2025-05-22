@@ -25,9 +25,11 @@ const Hero = () => {
       <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center gap-12 relative z-10">
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
-            <span className="typing-effect">
-              Hi, I'm <span className="cyber-text-gradient">Xinyuan Hu</span>
-            </span>
+            <div className="typing-container">
+              <span className="typing-effect">
+                Hi, I'm <span className="cyber-text-gradient">Xinyuan Hu</span>
+              </span>
+            </div>
           </h1>
           <div className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl space-y-3">
             <p>
