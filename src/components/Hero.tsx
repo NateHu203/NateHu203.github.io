@@ -36,7 +36,7 @@ const Hero = () => {
               I'm a Senior at Emory University, diving deep into <span className="cyber-text-gradient">Computer Science</span> and <span className="cyber-text-gradient">Data Science</span>. 
             </p>
             <p>
-              When I'm not exploring data or building software, I enjoy playing the 🎹, hitting the 🏀 or 🎾, and strategizing in 🎮 like CSGO and LOL. 
+              When I'm not exploring data or building software, I enjoy playing the 🎹, hitting the 🏀 or 🎾, and 🎮 like CSGO and LOL. 
             </p>
             <p>
               I'm actively seeking a Summer 2025 Internship as a <span className="cyber-text-gradient">Data Scientist/LLM Engineer</span> and would love to connect! Please feel free to reach out.
