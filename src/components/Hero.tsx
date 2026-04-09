@@ -62,6 +62,7 @@ export default function Hero() {
         <div className="flex items-center gap-8 text-ink-muted font-sans text-xs tracking-wider">
           <span>Atlanta, GA</span>
           <span className="hidden sm:inline">Emory '26</span>
+          <span className="hidden sm:inline">Harvard '28</span>
         </div>
 
         <span className="font-sans text-xs tracking-wider text-ink-muted hidden sm:inline">
