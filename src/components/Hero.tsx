@@ -24,7 +24,7 @@ export default function Hero() {
                 variants={line}
                 className="font-serif text-[clamp(3.5rem,9vw,8rem)] font-light leading-[0.9] tracking-[-0.03em] text-ink"
               >
-                Xinyuan
+                Hi, I'm Xinyuan
               </motion.h1>
             </div>
             <div className="overflow-hidden">
@@ -35,7 +35,7 @@ export default function Hero() {
                 variants={line}
                 className="font-serif text-[clamp(3.5rem,9vw,8rem)] font-light leading-[0.9] tracking-[-0.03em] text-ink italic"
               >
-                (Nate) Hu
+                (Nate) Hu ...
               </motion.h1>
             </div>
           </div>
