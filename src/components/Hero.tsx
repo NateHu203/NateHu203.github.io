@@ -1,44 +1,14 @@
 import { motion } from 'framer-motion';
 import PhysicsStack from './PhysicsStack';
+import HeroCanvas from './HeroCanvas';
 
 export default function Hero() {
-  const line = {
-    hidden: { y: '110%' },
-    visible: (i: number) => ({
-      y: 0,
-      transition: { duration: 1, delay: i * 0.12, ease: [0.25, 0.1, 0, 1] },
-    }),
-  };
-
   return (
     <section className="min-h-screen flex flex-col justify-between px-6 md:px-12 pt-32 pb-8">
       <div className="max-w-[1400px] mx-auto w-full flex-1 grid lg:grid-cols-2 gap-8 items-center">
-        {/* Left — Name */}
+        {/* Left — Name (Pretext canvas) */}
         <div>
-          <div className="mb-6">
-            <div className="overflow-hidden">
-              <motion.h1
-                custom={0}
-                initial="hidden"
-                animate="visible"
-                variants={line}
-                className="font-serif text-[clamp(3.5rem,9vw,8rem)] font-light leading-[0.9] tracking-[-0.03em] text-ink"
-              >
-                Hi, I'm Xinyuan
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden">
-              <motion.h1
-                custom={1}
-                initial="hidden"
-                animate="visible"
-                variants={line}
-                className="font-serif text-[clamp(3.5rem,9vw,8rem)] font-light leading-[0.9] tracking-[-0.03em] text-ink italic"
-              >
-                (Nate) Hu ...
-              </motion.h1>
-            </div>
-          </div>
+          <HeroCanvas />
         </div>
 
         {/* Right — Physics playground */}

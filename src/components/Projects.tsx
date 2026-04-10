@@ -1,7 +1,8 @@
 import RevealText from './RevealText';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type MutableRefObject } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ProjectTitleCanvas from './ProjectTitleCanvas';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,7 +83,13 @@ const TAG_TEXT: Record<string, string> = {
   'Hugging Face': '#a16207',
 };
 
-function CardContent({ project }: { project: Project }) {
+function CardContent({
+  project,
+  progressRef,
+}: {
+  project: Project;
+  progressRef: MutableRefObject<{ value: number }>;
+}) {
   return (
     <a
       href={project.github}
@@ -113,9 +120,11 @@ function CardContent({ project }: { project: Project }) {
         <p className="font-sans text-xs text-ink-muted uppercase tracking-wider mb-3">
           {project.type}
         </p>
-        <h3 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-ink group-hover:text-rust transition-colors duration-500 mb-6 leading-[1.1]">
-          {project.title}
-        </h3>
+        <ProjectTitleCanvas
+          text={project.title}
+          progressRef={progressRef}
+          className="mb-6"
+        />
         <p className="font-sans text-base text-ink-muted leading-relaxed mb-8 max-w-lg">
           {project.desc}
         </p>
@@ -123,9 +132,9 @@ function CardContent({ project }: { project: Project }) {
           {project.tech.map((t) => (
             <span
               key={t}
-              className="px-3 py-1 font-sans text-xs rounded-full"
+              className="px-3 py-1 font-sans text-xs rounded-full bg-transparent"
               style={{
-                backgroundColor: TAG_COLORS[t] ?? '#e8f4f8',
+                border: `1px solid ${TAG_TEXT[t] ?? '#2b6b7f'}`,
                 color: TAG_TEXT[t] ?? '#2b6b7f',
               }}
             >
@@ -146,6 +155,10 @@ function CardContent({ project }: { project: Project }) {
 
 export default function Projects() {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  // Progress refs for each card's title animation (0→1)
+  const progressRefs = useRef<{ value: number }[]>(
+    projects.map((_, i) => ({ value: i === 0 ? 1 : 0 })) // first card starts revealed
+  );
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -160,20 +173,32 @@ export default function Projects() {
     const tl = gsap.timeline();
 
     for (let i = 0; i < count - 1; i++) {
+      // Current card scales down + fades
       tl.to(cards[i], {
         scale: 0.88,
         opacity: 0.4,
         duration: 1,
       });
+      // Next card slides up
       tl.to(
         cards[i + 1],
         {
           yPercent: 0,
           duration: 1,
         },
-        '<' // simultaneous
+        '<'
       );
-      // small pause between transitions so each card "rests" on screen
+      // Title draws in as card arrives (overlapping the slide)
+      tl.to(
+        progressRefs.current[i + 1],
+        {
+          value: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+        },
+        '-=0.3'
+      );
+      // Small pause between transitions
       tl.to({}, { duration: 0.3 });
     }
 
@@ -194,7 +219,7 @@ export default function Projects() {
   return (
     <section id="projects">
       <div ref={wrapperRef} className="h-screen overflow-hidden">
-        {/* Header — sits on top of cards */}
+        {/* Header */}
         <div className="absolute top-0 left-0 w-full z-50 pt-10 pb-6 px-6 md:px-12 pointer-events-none">
           <div className="max-w-[1400px] mx-auto flex items-center gap-6">
             <RevealText className="font-mono text-xs tracking-[0.25em] uppercase text-ink-muted">
@@ -203,7 +228,7 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Stacking cards — all absolutely positioned, filling the wrapper */}
+        {/* Stacking cards */}
         {projects.map((project, i) => (
           <div
             key={i}
@@ -211,7 +236,10 @@ export default function Projects() {
             style={{ zIndex: i + 1 }}
           >
             <div className="w-full bg-card-bg backdrop-blur-sm shadow-[0_4px_60px_rgba(0,0,0,0.08)] p-8 md:p-14">
-              <CardContent project={project} />
+              <CardContent
+                project={project}
+                progressRef={{ current: progressRefs.current[i] }}
+              />
             </div>
           </div>
         ))}
