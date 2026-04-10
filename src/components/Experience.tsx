@@ -12,15 +12,26 @@ interface Role {
 
 const roles: Role[] = [
   {
+    title: 'AI Software Engineering Intern',
+    org: 'Électricité de France — Beijing',
+    period: 'Jun — Aug 2025',
+    bullets: [
+      'Cut analyst review time by 60% by shipping an AI-native news monitoring pipeline — combining LLM classification, agentic workflows, and prompt engineering to surface industrial electrification projects at 95%+ accuracy',
+      'Drove a 21% reduction in processing costs by designing a self-correcting feedback loop that analyzed analyst corrections to continuously refine classification logic and optimize token usage',
+      'Delivered a production-ready AI data service with Firecrawl/Crawl4AI web scraping, structured JSON schema validation, and real-time search API enrichment',
+    ],
+    stack: ['Python', 'LLMs', 'Firecrawl', 'Crawl4AI', 'Harness Engineering', 'Data Scraping'],
+  },
+  {
     title: 'Research Assistant',
     org: 'Tsinghua University — Future Intelligence Lab',
-    period: '2024 — Present',
+    period: 'Jun 2024 — Jan 2025',
     bullets: [
       'Developing edge-cloud LLM collaboration framework — 66% reasoning time reduction, 83% API cost savings',
       'Published 3 research papers including one accepted at ACM Web Conference (WWW\'25)',
       'Focus: Large Reasoning Models, Small/Large Model Collaboration, On-Device AI Agents',
     ],
-    stack: ['Python', 'NLP', 'LLMs', 'Transformers'],
+    stack: ['Python', 'NLP', 'LLMs', 'Workflow Orchestration'],
   },
   {
     title: 'Research & Teaching Assistant',
@@ -31,7 +42,7 @@ const roles: Role[] = [
       'Email dataset preprocessing and syntactic analysis under Prof. Sandeep Soni',
       'TA for QTM 340: Approaches to Data Science with Text',
     ],
-    stack: ['Python', 'NLP', 'CLI', 'Teaching'],
+    stack: ['Python', 'NLP', 'Teaching'],
   },
   {
     title: 'Data Intelligence Intern',
@@ -41,7 +52,7 @@ const roles: Role[] = [
       'Designed URNAU and MANU metrics for TV streaming user engagement measurement',
       'Achieved 21% computing time reduction and 15% memory usage optimization',
     ],
-    stack: ['Hive', 'SQL', 'Python'],
+    stack: ['Hive', 'MySQL'],
   },
   {
     title: 'Data Analyst Intern',
@@ -51,7 +62,7 @@ const roles: Role[] = [
       'JOLTS/CES database analysis for employment trend insights in the HR SaaS market',
       'Google Analytics optimization — 18% traffic increase, 8% revenue growth',
     ],
-    stack: ['SQL', 'BigQuery', 'Analytics'],
+    stack: ['SQL', 'BigQuery', 'Data Analytics'],
   },
 ];
 

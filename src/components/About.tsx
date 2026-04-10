@@ -25,21 +25,14 @@ export default function About() {
               className="font-serif text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1] tracking-tight text-ink mb-8"
               delay={0.15}
             >
-              I study how machines reason — then make them do it better.
+              OPEN TO WORK ...
             </RevealText>
 
             <FadeIn delay={0.3}>
-              <div className="space-y-5 text-ink-light font-sans text-base leading-[1.8] mb-10">
-                <p>
-                  I'm a senior at Emory University double majoring in Data Science
-                  and Computer Science. At the Tsinghua University Future Intelligence Lab,
-                  I research edge-cloud LLM collaboration — work that's cut reasoning time
-                  by 66% and API costs by 83%, resulting in three published papers.
-                </p>
-                <p>
-                  Outside the lab, I play piano, shoot hoops, and occasionally lose LP
-                  in League of Legends.
-                </p>
+              <div className="space-y-3 text-ink-light font-sans text-base leading-[1.8] mb-10">
+                <p>B.S. Computer Science & Data Science @ Emory University</p>
+                <p>Upcoming S.M. Data Science @ Harvard University</p>
+                <p>Interests: Piano, Tennis, Video Gaming</p>
               </div>
             </FadeIn>
 
@@ -57,7 +50,6 @@ export default function About() {
                   <ul className="space-y-1.5">
                     <li className="font-sans text-sm text-ink-light">Dean's List, 2022–2024</li>
                     <li className="font-sans text-sm text-ink-light">DataFest 2025 Best Insight</li>
-                    <li className="font-sans text-sm text-ink-light">3 Research Publications</li>
                   </ul>
                 </div>
               </div>

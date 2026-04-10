@@ -17,6 +17,7 @@ export default {
         rust: '#C2542D',
         'warm-border': '#e5e0d8',
         'warm-hover': '#ece8e1',
+        'card-bg': '#e8e4dc',
       },
     },
   },

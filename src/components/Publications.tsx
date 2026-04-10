@@ -20,8 +20,8 @@ const papers: Paper[] = [
   },
   {
     title: 'Towards Large Reasoning Models: A Survey of Reinforced Reasoning with Large Language Models',
-    venue: 'arXiv preprint',
-    venueTag: 'arXiv',
+    venue: 'Patterns',
+    venueTag: 'Cell Press',
     year: '2025',
     image: '/contents/LRM.png',
   },
