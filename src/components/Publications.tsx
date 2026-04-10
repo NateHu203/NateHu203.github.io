@@ -58,7 +58,7 @@ function PaperRow({ paper, index }: { paper: Paper; index: number }) {
         {/* Content */}
         <div className="md:col-span-8 flex flex-col justify-center">
           <div className="flex items-center gap-3 mb-4">
-            <span className="px-3 py-1 font-sans text-xs uppercase text-rust border border-rust/30 rounded-full">
+            <span className="px-3 py-1 font-sans text-xs uppercase text-rust border border-rust/30 rounded-sm">
               {paper.venueTag}
             </span>
             <span className="font-mono text-xs text-ink-faint">{paper.year}</span>

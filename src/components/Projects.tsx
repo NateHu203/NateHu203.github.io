@@ -132,7 +132,7 @@ function CardContent({
           {project.tech.map((t) => (
             <span
               key={t}
-              className="px-3 py-1 font-sans text-xs rounded-full bg-transparent"
+              className="px-3 py-1 font-sans text-xs rounded-sm bg-transparent"
               style={{
                 border: `1px solid ${TAG_TEXT[t] ?? '#2b6b7f'}`,
                 color: TAG_TEXT[t] ?? '#2b6b7f',

@@ -127,7 +127,7 @@ function RoleRow({ role, index }: { role: Role; index: number }) {
               {role.stack.map((s) => (
                 <span
                   key={s}
-                  className="px-3 py-1 font-mono text-[11px] text-ink-muted border border-warm-border rounded-full"
+                  className="px-3 py-1 font-mono text-[11px] text-ink-muted border border-warm-border rounded-sm"
                 >
                   {s}
                 </span>

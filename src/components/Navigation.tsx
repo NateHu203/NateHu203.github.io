@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const RESUME_URL = '/contents/Nate.pdf';
+
 const links = [
   { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },
@@ -9,9 +11,79 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ];
 
+function ResumeModal({ onClose }: { onClose: () => void }) {
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center"
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+
+      {/* Modal */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0, 1] }}
+        className="relative z-10 w-[90vw] max-w-4xl h-[85vh] bg-cream rounded-lg shadow-2xl flex flex-col overflow-hidden"
+      >
+        {/* Header bar */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-warm-border">
+          <span className="font-sans text-sm text-ink-muted">Resume</span>
+          <div className="flex items-center gap-3">
+            <a
+              href={RESUME_URL}
+              download
+              className="px-4 py-2 text-xs font-sans border border-ink rounded-sm text-ink hover:bg-ink hover:text-cream transition-all duration-300"
+            >
+              Download
+            </a>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center text-ink-muted hover:text-ink transition-colors"
+              aria-label="Close"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* PDF embed */}
+        <div className="flex-1 bg-neutral-200">
+          <iframe
+            src={`${RESUME_URL}#toolbar=0&navpanes=0`}
+            className="w-full h-full border-0"
+            title="Resume"
+          />
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showResume, setShowResume] = useState(false);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -44,14 +116,12 @@ export default function Navigation() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="/contents/Nate_Hu_Resume 8.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-4 px-5 py-2.5 text-sm font-sans border border-ink rounded-full text-ink hover:bg-ink hover:text-cream transition-all duration-400"
+            <button
+              onClick={() => setShowResume(true)}
+              className="ml-4 px-5 py-2.5 text-sm font-sans border border-ink rounded-sm text-ink hover:bg-ink hover:text-cream transition-all duration-400"
             >
               Resume
-            </a>
+            </button>
           </nav>
 
           <button
@@ -97,8 +167,22 @@ export default function Navigation() {
                 {l.label}
               </motion.a>
             ))}
+            <motion.button
+              onClick={() => { setOpen(false); setShowResume(true); }}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15 + links.length * 0.06 }}
+              className="font-serif text-5xl font-light text-ink hover:text-rust transition-colors"
+            >
+              Resume
+            </motion.button>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      {/* Resume modal */}
+      <AnimatePresence>
+        {showResume && <ResumeModal onClose={() => setShowResume(false)} />}
       </AnimatePresence>
     </>
   );
