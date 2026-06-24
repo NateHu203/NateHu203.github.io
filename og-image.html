@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Homemade+Apple&family=JetBrains+Mono:wght@500&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: radial-gradient(120% 120% at 30% 0%, #f7f6f1, #ece9df);
+    font-family: 'Newsreader', serif;
+    color: #24262b;
+    position: relative;
+    overflow: hidden;
+  }
+  .note {
+    position: absolute;
+    background: #fefefb;
+    box-shadow: 0 2px 4px rgba(33,35,41,.05), 0 24px 50px -14px rgba(33,35,41,.25);
+    padding: 44px 50px;
+  }
+  .hero {
+    left: 90px; top: 150px; width: 560px;
+    border-radius: 46px 60px 48px 62px / 54px 46px 60px 50px;
+    transform: rotate(-1.5deg);
+  }
+  .name { font-family: 'Homemade Apple', cursive; font-size: 64px; line-height: 1.2; }
+  .uline { width: 230px; height: 8px; margin: 14px 0 26px; }
+  .uline path { fill: none; stroke: #2d4f9e; stroke-width: 3; stroke-linecap: round; }
+  .role { font-family: 'JetBrains Mono', monospace; font-size: 17px; letter-spacing: .22em; text-transform: uppercase; color: #80838b; margin-bottom: 22px; }
+  .blurb { font-size: 27px; line-height: 1.5; color: #44474e; }
+  .side {
+    left: 720px; top: 120px; width: 360px;
+    border-radius: 24px 30px 22px 32px;
+    transform: rotate(2.4deg);
+    background: #f8f7f0;
+  }
+  .side h2 { font-family: 'Caveat', cursive; font-size: 40px; margin-bottom: 14px; }
+  .side p { font-size: 22px; line-height: 1.55; color: #44474e; }
+  .sticky {
+    left: 880px; top: 400px; width: 230px;
+    background: #f8efc5;
+    border-radius: 8px 12px 8px 12px;
+    transform: rotate(-4deg);
+    padding: 28px 30px;
+    font-family: 'Caveat', cursive; font-size: 30px; color: #24262b;
+  }
+  .tag { font-family: 'Caveat', cursive; font-size: 26px; color: #2d4f9e; margin-top: 18px; }
+</style>
+</head>
+<body>
+  <div class="note hero">
+    <div class="name">Nate Hu</div>
+    <svg class="uline" viewBox="0 0 230 8"><path d="M4 5 C 60 1 150 2 226 4" /></svg>
+    <div class="role">Data Science · LLM Research</div>
+    <div class="blurb">I build things with language models — and occasionally teach them to reason.</div>
+  </div>
+
+  <div class="note side">
+    <h2>papers · projects</h2>
+    <p>Emory ’26 → Harvard ’28. On-device agents, model collaboration, NLP.</p>
+    <div class="tag">a canvas of notes →</div>
+  </div>
+
+  <div class="note sticky">resume ↓</div>
+</body>
+</html>

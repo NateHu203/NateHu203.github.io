@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wireframe v1 — Canvas of Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Homemade+Apple&family=Karla:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f6f4ee;
+    --ink: #2b2925;
+    --line: #b9b4a8;
+    --bar: #ddd8cc;
+    --pencil: #3b6fd4;   /* blue pencil = annotation */
+    --marker: #d24a3b;   /* red = key interaction */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* faint paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 50;
+  }
+
+  /* ---------- wireframe chrome ---------- */
+  .toolbar {
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    z-index: 40;
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    color: var(--marker);
+    background: #fff;
+    border: 1.5px dashed var(--marker);
+    border-radius: 4px;
+    padding: 4px 14px;
+    transform: rotate(2deg);
+  }
+
+  .legend {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 40;
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 10px 16px;
+    box-shadow: 3px 4px 0 rgba(0,0,0,0.06);
+  }
+  .legend .blue { color: var(--pencil); }
+  .legend .red  { color: var(--marker); }
+
+  /* ---------- the canvas ---------- */
+  .canvas {
+    position: relative;
+    width: 100%;
+    max-width: 1500px;
+    height: 1040px;
+    margin: 0 auto;
+  }
+
+  #wires {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  #wires path {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 7;
+  }
+
+  /* ---------- notes ---------- */
+  .note {
+    position: absolute;
+    z-index: 2;
+    background: #fdfcf8;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--r, 14px);
+    padding: 22px 26px;
+    box-shadow: 4px 6px 0 rgba(43,41,37,0.08);
+    cursor: grab;
+    transform: rotate(var(--rot, 0deg));
+    animation: settle 0.7s cubic-bezier(.2,1.6,.4,1) both;
+    animation-delay: var(--d, 0s);
+    transition: box-shadow 0.2s ease;
+    user-select: none;
+  }
+  .note:hover {
+    box-shadow: 7px 10px 0 rgba(43,41,37,0.10);
+    animation: settle 0.7s cubic-bezier(.2,1.6,.4,1) both, wobble 0.5s ease;
+    animation-delay: var(--d, 0s), 0s;
+  }
+  .note.dragging { cursor: grabbing; z-index: 30; }
+
+  @keyframes settle {
+    from { opacity: 0; transform: translateY(-26px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+    to   { opacity: 1; transform: translateY(0)     rotate(var(--rot, 0deg)); }
+  }
+  @keyframes wobble {
+    0%,100% { transform: rotate(var(--rot, 0deg)); }
+    35%     { transform: rotate(calc(var(--rot, 0deg) + 1.6deg)); }
+    70%     { transform: rotate(calc(var(--rot, 0deg) - 1.2deg)); }
+  }
+
+  /* masking tape on some notes */
+  .tape::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 86px;
+    height: 24px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: rgba(214, 208, 188, 0.65);
+    border-left: 1px dashed rgba(0,0,0,0.12);
+    border-right: 1px dashed rgba(0,0,0,0.12);
+  }
+
+  .note h2 {
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  /* greeked text bars */
+  .bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bar);
+    margin: 7px 0;
+  }
+  .w90 { width: 90%; } .w75 { width: 75%; } .w60 { width: 60%; } .w40 { width: 40%; }
+
+  .imgbox {
+    height: 74px;
+    margin: 10px 0 4px;
+    border: 1.5px dashed var(--line);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--line);
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+  }
+
+  /* ---------- individual notes ---------- */
+  #n-nav {
+    --rot: -2deg; --d: 0s; --r: 10px;
+    top: 3%; left: 4%;
+    padding: 12px 20px;
+  }
+  #n-nav span {
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    margin-right: 18px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  #n-hero {
+    --rot: -1deg; --d: 0.05s;
+    --r: 46% 54% 52% 48% / 38% 44% 56% 62%;
+    top: 16%; left: 7%;
+    width: 380px;
+    padding: 44px 46px;
+  }
+  #n-hero .name {
+    font-family: 'Homemade Apple', cursive;
+    font-size: 2.1rem;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  #n-hero .role {
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: #6f6a5e;
+    margin-bottom: 16px;
+  }
+
+  #n-about {
+    --rot: 2.5deg; --d: 0.15s;
+    --r: 58% 42% 44% 56% / 48% 56% 44% 52%;
+    top: 7%; left: 44%;
+    width: 290px;
+  }
+
+  #n-proj1 {
+    --rot: -2.5deg; --d: 0.25s;
+    --r: 18px 22px 16px 24px;
+    top: 33%; left: 52%;
+    width: 300px;
+  }
+  #n-proj2 {
+    --rot: 1.8deg; --d: 0.32s;
+    --r: 22px 14px 24px 18px;
+    top: 41%; left: 73%;
+    width: 280px;
+  }
+
+  #n-exp {
+    --rot: 1.2deg; --d: 0.4s;
+    --r: 44% 56% 58% 42% / 54% 46% 54% 46%;
+    top: 60%; left: 9%;
+    width: 330px;
+  }
+
+  #n-pub {
+    --rot: -3deg; --d: 0.48s;
+    --r: 52% 48% 46% 54% / 44% 58% 42% 56%;
+    top: 71%; left: 43%;
+    width: 270px;
+  }
+
+  #n-contact {
+    --rot: 2deg; --d: 0.55s;
+    --r: 16px;
+    top: 73%; left: 70%;
+    width: 280px;
+  }
+  #n-contact .scribble {
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+    margin-top: 8px;
+  }
+
+  #n-resume {
+    --rot: -4deg; --d: 0.62s;
+    --r: 12px;
+    top: 6%; left: 80%;
+    width: 170px;
+    background: #fff7d6;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem;
+    padding: 22px 16px;
+  }
+
+  /* ---------- pencil annotations ---------- */
+  .anno {
+    position: absolute;
+    z-index: 3;
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--pencil);
+    pointer-events: none;
+    max-width: 220px;
+  }
+  .anno.red { color: var(--marker); }
+  .anno svg {
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  #a-physics { top: 51%; left: 36%; transform: rotate(-3deg); }
+  #a-drag    { top: 25%; left: 36%; transform: rotate(2deg); }
+  #a-anchor  { top: 56%; left: 4%;  transform: rotate(-2deg); }
+  #a-mobile  { top: 88%; left: 8%;  transform: rotate(1deg); }
+  #a-hand    { top: 17%; left: 71%; transform: rotate(-2deg); }
+
+  /* ---------- mobile: notes stack ---------- */
+  .mobile-note { display: none; }
+
+  @media (max-width: 860px) {
+    .canvas { height: auto; padding: 70px 0 40px; }
+    #wires, .anno, .legend { display: none; }
+    .note {
+      position: static;
+      width: min(92%, 420px) !important;
+      margin: 22px auto;
+      animation: none;
+    }
+    #n-nav { position: fixed; top: 10px; left: 10px; z-index: 45; margin: 0; width: auto !important; }
+    .mobile-note {
+      display: block;
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: var(--marker);
+      margin-top: 60px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">wireframe v1 — try dragging the notes</div>
+
+<p class="mobile-note">↓ mobile: canvas collapses to a single column ↓</p>
+
+<div class="canvas" id="canvas">
+
+  <svg id="wires"></svg>
+
+  <!-- nav -->
+  <div class="note" id="n-nav">
+    <span>about</span><span>projects</span><span>papers</span><span>contact</span>
+  </div>
+
+  <!-- hero / anchor -->
+  <div class="note" id="n-hero" data-link="n-about n-proj1 n-exp">
+    <div class="name">Nate Hu</div>
+    <div class="role">Builder · Researcher · Etc.</div>
+    <div class="bar w90"></div>
+    <div class="bar w75"></div>
+    <div class="bar w40"></div>
+  </div>
+
+  <!-- about -->
+  <div class="note" id="n-about">
+    <h2>about me</h2>
+    <div class="bar w90"></div>
+    <div class="bar w90"></div>
+    <div class="bar w60"></div>
+  </div>
+
+  <!-- projects -->
+  <div class="note tape" id="n-proj1" data-link="n-proj2 n-pub">
+    <h2>project no.1</h2>
+    <div class="imgbox">screenshot / sketch</div>
+    <div class="bar w90"></div>
+    <div class="bar w60"></div>
+  </div>
+
+  <div class="note" id="n-proj2">
+    <h2>project no.2</h2>
+    <div class="imgbox">screenshot / sketch</div>
+    <div class="bar w75"></div>
+    <div class="bar w40"></div>
+  </div>
+
+  <!-- experience -->
+  <div class="note tape" id="n-exp">
+    <h2>experience</h2>
+    <div class="bar w90"></div>
+    <div class="bar w75"></div>
+    <div class="bar w90"></div>
+    <div class="bar w60"></div>
+  </div>
+
+  <!-- publications -->
+  <div class="note" id="n-pub">
+    <h2>publications</h2>
+    <div class="bar w90"></div>
+    <div class="bar w75"></div>
+  </div>
+
+  <!-- contact -->
+  <div class="note tape" id="n-contact" data-link="n-resume">
+    <h2>say hi</h2>
+    <div class="bar w60"></div>
+    <div class="scribble">email · github · linkedin ✎</div>
+  </div>
+
+  <!-- resume sticky -->
+  <div class="note" id="n-resume">resume ↓<br/><span style="font-size:0.95rem; color:#8a8470;">(one obvious click)</span></div>
+
+  <!-- pencil annotations -->
+  <div class="anno red" id="a-drag">
+    every note is draggable —<br/>matter.js physics, notes<br/>settle &amp; wobble on load
+    <svg width="90" height="46" viewBox="0 0 90 46"><path d="M4 6 C 30 30, 55 38, 84 32 M84 32 l-10 -7 M84 32 l-12 4"/></svg>
+  </div>
+
+  <div class="anno" id="a-physics">
+    dashed lines = hand-drawn SVG<br/>connectors, animate in on load
+  </div>
+
+  <div class="anno" id="a-anchor">
+    biggest note = anchor.<br/>name handwritten, everything<br/>else in clean type
+    <svg width="60" height="40" viewBox="0 0 60 40"><path d="M50 36 C 36 24, 24 16, 10 8 M10 8 l3 11 M10 8 l12 1"/></svg>
+  </div>
+
+  <div class="anno" id="a-mobile">
+    &lt; 860px → notes stack into one<br/>column, physics off, order:<br/>hero → projects → experience → contact
+  </div>
+
+  <div class="anno" id="a-hand">
+    handwriting = accents only,<br/>body text stays readable
+  </div>
+
+</div>
+
+<div class="legend">
+  <span class="blue">blue pencil</span> = behavior notes &nbsp;·&nbsp;
+  <span class="red">red</span> = key interaction<br/>
+  gray bars = real text goes here · resize window for mobile view
+</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const svg = document.getElementById('wires');
+
+  // connections declared on notes via data-link
+  const links = [];
+  document.querySelectorAll('.note[data-link]').forEach(n => {
+    n.dataset.link.split(' ').forEach(t => links.push([n.id, t]));
+  });
+
+  function center(el) {
+    const c = canvas.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    return { x: r.left - c.left + r.width / 2, y: r.top - c.top + r.height / 2 };
+  }
+
+  function drawWires() {
+    if (getComputedStyle(svg).display === 'none') return;
+    svg.innerHTML = '';
+    links.forEach(([a, b]) => {
+      const ea = document.getElementById(a), eb = document.getElementById(b);
+      if (!ea || !eb) return;
+      const p1 = center(ea), p2 = center(eb);
+      const mx = (p1.x + p2.x) / 2 + (p1.y - p2.y) * 0.18; // slight hand-drawn bow
+      const my = (p1.y + p2.y) / 2 + (p2.x - p1.x) * 0.10;
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${p1.x} ${p1.y} Q ${mx} ${my} ${p2.x} ${p2.y}`);
+      svg.appendChild(path);
+    });
+  }
+
+  // simple drag (stands in for matter.js in the real build)
+  let drag = null;
+  document.querySelectorAll('.note').forEach(note => {
+    note.addEventListener('pointerdown', e => {
+      if (window.innerWidth <= 860) return;
+      drag = {
+        note,
+        dx: e.clientX - note.offsetLeft,
+        dy: e.clientY - note.offsetTop
+      };
+      note.classList.add('dragging');
+      note.style.animation = 'none';
+      note.setPointerCapture(e.pointerId);
+    });
+    note.addEventListener('pointermove', e => {
+      if (!drag || drag.note !== note) return;
+      note.style.left = (e.clientX - drag.dx) + 'px';
+      note.style.top = (e.clientY - drag.dy) + 'px';
+      drawWires();
+    });
+    note.addEventListener('pointerup', () => {
+      if (drag) drag.note.classList.remove('dragging');
+      drag = null;
+    });
+  });
+
+  // draw after fonts/settle animation
+  window.addEventListener('load', () => setTimeout(drawWires, 900));
+  window.addEventListener('resize', drawWires);
+</script>
+
+</body>
+</html>
