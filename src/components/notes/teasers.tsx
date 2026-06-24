@@ -133,7 +133,7 @@ const resume = (
   <div className="text-center">
     <span className="font-hand text-xl text-ink">resume ↓</span>
     <span className="block font-hand text-sm text-ink-mute mt-0.5">
-      (one click, promise)
+      (one click...)
     </span>
   </div>
 );
