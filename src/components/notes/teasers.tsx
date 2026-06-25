@@ -138,9 +138,25 @@ const resume = (
   </div>
 );
 
+const photo = (
+  <figure className="m-0">
+    <img
+      src="/contents/selfie.png"
+      alt="Nate Hu at graduation"
+      loading="lazy"
+      draggable={false}
+      className="block w-full aspect-[3/4] object-cover rounded-[2px] bg-paper"
+    />
+    <figcaption className="font-hand text-base text-ink-soft text-center pt-1.5">
+      me, irl ✎
+    </figcaption>
+  </figure>
+);
+
 export const TEASERS: Record<NoteId, ReactNode> = {
   hero,
   about,
+  photo,
   experience,
   projects: projectsTeaser,
   publications,

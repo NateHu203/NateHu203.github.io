@@ -9,6 +9,7 @@ const RADII: Record<Variant, string> = {
   rect1: '20px 26px 18px 28px',
   rect2: '26px 18px 28px 20px',
   sticky: '8px 12px 8px 12px',
+  photo: '4px 6px 4px 5px',
 };
 
 const TONES: Record<Tone, string> = {
@@ -28,13 +29,14 @@ interface Props {
 
 export default function NoteShell({ variant, tone = 'cream', tape, clickable, children }: Props) {
   const sticky = variant === 'sticky';
+  const photo = variant === 'photo';
+  const padding = photo ? 'p-2.5 pb-1.5' : sticky ? 'px-5 py-5' : 'px-8 py-7';
+  const bg = photo ? '#FFFFFF' : TONES[sticky ? 'sticky' : tone];
   return (
     <div
       data-hover={clickable || undefined}
-      className={`note-grain relative shadow-note transition-[box-shadow,transform] duration-300 ease-out hover:shadow-note-lg hover:scale-[1.015] ring-1 ring-ink/[0.04] ${
-        sticky ? 'px-5 py-5' : 'px-8 py-7'
-      }`}
-      style={{ borderRadius: RADII[variant], background: TONES[sticky ? 'sticky' : tone] }}
+      className={`note-grain relative shadow-note transition-[box-shadow,transform] duration-300 ease-out hover:shadow-note-lg hover:scale-[1.015] ring-1 ring-ink/[0.04] ${padding}`}
+      style={{ borderRadius: RADII[variant], background: bg }}
     >
       {tape && <span className="tape" aria-hidden="true" />}
       {children}

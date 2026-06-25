@@ -34,7 +34,9 @@ export default function MobileStack({ onOpenSheet, onOpenResume }: Props) {
             whileInView={{ opacity: 1, y: 0, rotate: i % 2 ? 1 : -1 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ type: 'spring', stiffness: 220, damping: 22 }}
-            className={`note-focus mb-8 rounded-[24px] ${def.id === 'resume' ? 'w-44 mx-auto' : ''}`}
+            className={`note-focus mb-8 rounded-[24px] ${
+              def.id === 'resume' ? 'w-44 mx-auto' : def.id === 'photo' ? 'w-52 mx-auto' : ''
+            }`}
             role={interactive ? 'button' : undefined}
             tabIndex={interactive ? 0 : undefined}
             aria-label={interactive ? NOTE_LABELS[def.id] : undefined}

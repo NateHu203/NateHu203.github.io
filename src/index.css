@@ -15,8 +15,15 @@ html {
 }
 
 body {
-  background: radial-gradient(120% 110% at 50% 0%, #f7f6f1 0%, #f0efe9 55%, #e7e7df 100%)
-    fixed #f2f1eb;
+  background-color: #f2f1eb;
+  /* layered paper: fine fibres + soft low-frequency mottle + warm light */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23f)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23m)'/%3E%3C/svg%3E"),
+    radial-gradient(120% 110% at 50% 0%, #f7f6f1 0%, #f0efe9 55%, #e7e7df 100%);
+  background-repeat: repeat, repeat, no-repeat;
+  background-size: 180px 180px, 700px 700px, cover;
+  background-attachment: fixed;
   color: #24262b;
   font-family: 'Newsreader', Georgia, serif;
   overflow-x: hidden;
