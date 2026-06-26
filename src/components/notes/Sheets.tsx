@@ -166,14 +166,18 @@ function PublicationsSheet() {
       <SheetHeading>papers</SheetHeading>
       <div className="space-y-9">
         {papers.map((p, i) => (
-          <div
+          <a
             key={p.venueTag}
-            className="grid sm:grid-cols-[160px_1fr] gap-5 sm:gap-7 items-start"
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-hover
+            className="group grid sm:grid-cols-[160px_1fr] gap-5 sm:gap-7 items-start"
           >
             <div
               className={`bg-paper border border-ink/30 rounded-lg overflow-hidden aspect-[4/3] shadow-note ${
                 i % 2 ? '-rotate-[1.2deg]' : 'rotate-[1.2deg]'
-              }`}
+              } transition-transform duration-300 group-hover:rotate-0`}
             >
               <img
                 src={p.image}
@@ -187,12 +191,17 @@ function PublicationsSheet() {
                 {p.venueTag}
                 <span className="font-mono text-[10px] text-ink-mute ml-3">{p.year}</span>
               </p>
-              <h3 className="font-serif text-lg leading-snug text-ink mt-1">{p.title}</h3>
+              <h3 className="font-serif text-lg leading-snug text-ink mt-1 group-hover:text-pen transition-colors">
+                {p.title}
+              </h3>
               <p className="font-serif text-sm text-ink-mute mt-2">
-                {p.venue} — Xinyuan Hu et al.
+                {p.venue}.
               </p>
+              <span className="inline-block font-hand text-lg text-pen mt-2">
+                read the paper →
+              </span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </>

@@ -128,6 +128,7 @@ export interface Paper {
   venueTag: string;
   year: string;
   image: string;
+  url: string;
 }
 
 export const papers: Paper[] = [
@@ -137,6 +138,7 @@ export const papers: Paper[] = [
     venueTag: "WWW '25",
     year: '2025',
     image: '/contents/DoT.png',
+    url: 'https://dl.acm.org/doi/abs/10.1145/3696410.3714765',
   },
   {
     title: 'Towards Large Reasoning Models: A Survey of Reinforced Reasoning with Large Language Models',
@@ -144,6 +146,7 @@ export const papers: Paper[] = [
     venueTag: 'Cell Press',
     year: '2025',
     image: '/contents/LRM.png',
+    url: 'https://www.cell.com/patterns/fulltext/S2666-3899(25)00218-1',
   },
   {
     title: 'LIMP: Large Language Model Enhanced Intent-aware Mobility Prediction',
@@ -151,5 +154,6 @@ export const papers: Paper[] = [
     venueTag: 'arXiv',
     year: '2024',
     image: '/contents/LIMP.png',
+    url: 'https://arxiv.org/abs/2408.12832',
   },
 ];

@@ -26,11 +26,10 @@ const hero = (
       Data Science · LLM Research
     </p>
     <p className="font-serif text-[15px] leading-relaxed text-ink-soft">
-      I build things with language models — and occasionally teach them to
-      reason. Emory&nbsp;&rsquo;26&nbsp;→ Harvard&nbsp;&rsquo;28.
+      I love to build things with language models... Emory&nbsp;&rsquo;26&nbsp;→ Harvard&nbsp;&rsquo;28.
     </p>
     <div className="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 mt-6">
-      <span className="font-mono text-[10px] text-ink-mute">Atlanta, GA</span>
+      <span className="font-mono text-[10px] text-ink-mute">Boston, MA</span>
       <span className="text-ink-faint" aria-hidden="true">·</span>
       <a
         href={`mailto:${EMAIL}`}
@@ -59,9 +58,10 @@ const experience = (
     <h2 className="font-hand text-2xl text-ink mb-3">experience</h2>
     <ul className="space-y-2">
       {[
+        ['Huddle - Founding AI Engineer', "Present"],
         ['EDF — AI engineering', "'25"],
-        ['Tsinghua — LLM research', "'24–25"],
-        ['Emory QTM — research & TA', "'23–25"],
+        ['Tsinghua — RA', "'24–25"],
+        ['Emory QTM — RA & TA', "'23–25"],
       ].map(([org, yr]) => (
         <li key={org} className="flex items-baseline justify-between gap-3">
           <span className="font-serif text-sm text-ink-soft">{org}</span>
