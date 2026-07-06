@@ -91,17 +91,18 @@ note.
 - Existing behavior preserved: Escape closes, backdrop click closes, body
   scroll locked while open, keyboard/ARIA unchanged.
 
-## 5. Mobile fixes (`src/components/MobileStack.tsx`)
+## 5. Mobile polish (`src/components/MobileStack.tsx`)
 
-**Problem:** At 390px the hero/about cards bleed off the right edge
-mid-sentence — reads as broken.
+**Update (post-spec diagnosis):** the right-edge clipping seen in the audit
+screenshot was an artifact of headless Chrome's `--screenshot` flag, not a
+real bug — a Playwright probe at 390×844 measures every card at 350–365px
+inside the viewport with correct gutters. No clipping fix is needed.
 
-**Fix:**
+**Remaining work:**
 
-- Diagnose and fix the right-edge clipping; ensure consistent gutters
-  across the stack at 320–900px widths.
 - Add subtle press-down feedback on tappable cards (small scale on
-  `:active` or pointer-down).
+  pointer-down, reversed on release).
+- Re-verify gutters at 320px and 390px as part of final verification.
 - No layout redesign; same tokens.
 
 ## Out of scope
