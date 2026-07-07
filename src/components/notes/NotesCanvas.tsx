@@ -328,17 +328,6 @@ export default function NotesCanvas({ onOpenSheet, onOpenResume }: Props) {
         );
       })}
 
-      {/* nudge to play — disappears after the first drag */}
-      <div
-        className={`absolute font-hand text-lg text-ink-mute -rotate-3 pointer-events-none transition-opacity duration-700 ${
-          settled && !dragged ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{ left: '37%', top: '40%' }}
-        aria-hidden="true"
-      >
-        (go on — drag them)
-      </div>
-
       <footer className="absolute bottom-4 inset-x-6 flex items-center justify-between pointer-events-none">
         <span className="font-mono text-[10px] text-ink-faint">
           © {new Date().getFullYear()} xinyuan (nate) hu
