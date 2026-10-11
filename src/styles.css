@@ -223,11 +223,11 @@ a {
   color: transparent;
 }
 
-.hero__name-paint {
+.brush-paint {
   position: absolute;
   pointer-events: none;
 }
-.hero__name:not(.is-painted) .hero__name-paint {
+:not(.is-painted) > .brush-paint {
   display: none;
 }
 
@@ -424,11 +424,17 @@ a {
 }
 
 .topbar__name {
-  font-size: 1.125rem;
-  font-weight: 750;
-  font-stretch: 125%;
-  letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ink);
   text-decoration: none;
+}
+.topbar__name.is-painted {
+  color: transparent;
 }
 
 .topbar nav {
@@ -873,10 +879,6 @@ a {
   border-top: 1px solid var(--line);
   margin-bottom: 16px;
 }
-.colophon p:last-child {
-  max-width: 50ch;
-}
-
 /* ── résumé dialog ── */
 
 .resume {

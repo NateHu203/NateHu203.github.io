@@ -1,6 +1,16 @@
 import { ctx2d, makeCanvas } from './ref';
 import { makeNoise, mulberry32, randomSeed, smoothstep } from './rng';
 
+/** Any CSS colour to RGB, via a 1×1 canvas. */
+function parseColor(color: string): [number, number, number] {
+  const c = ctx2d(makeCanvas(1, 1), true);
+  c.fillStyle = '#fff';
+  c.fillStyle = color;
+  c.fillRect(0, 0, 1, 1);
+  const d = c.getImageData(0, 0, 1, 1).data;
+  return [d[0], d[1], d[2]];
+}
+
 /** Separable box blur on a float field, `passes` times (≈ gaussian). */
 function blurField(src: Float32Array, W: number, H: number, r: number, passes = 2) {
   const a = src;
@@ -30,12 +40,12 @@ function blurField(src: Float32Array, W: number, H: number, r: number, passes = 
 }
 
 /**
- * Write `el`'s text into `canvas` in pure white, as a loaded brush would:
+ * Write `el`'s text into `canvas` in `color`, as a loaded brush would:
  * bristle streaks running along each letter's strokes, thinning and breaking
  * where the brush runs dry. Flat — no relief, no shadow. Returns a function
  * that cancels the reveal.
  */
-export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, animate: boolean): () => void {
+export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, color: string, animate: boolean): () => void {
   const text = el.textContent?.trim() ?? '';
   const cs = getComputedStyle(el);
   const size = parseFloat(cs.fontSize);
@@ -48,7 +58,9 @@ export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, animate: b
   const baseline = probe.offsetTop;
   probe.remove();
 
-  const k = Math.min(window.devicePixelRatio || 1, 1.75);
+  // small names get full screen resolution; big ones are capped for speed
+  const small = size < 48;
+  const k = Math.min(window.devicePixelRatio || 1, small ? 3 : 1.75);
   const pad = Math.ceil(size * 0.1);
   const font = `${cs.fontStyle} ${cs.fontWeight} ${size}px ${cs.fontFamily}`;
 
@@ -102,6 +114,7 @@ export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, animate: b
   const rng = mulberry32(randomSeed());
   const dry = makeNoise(rng);
   const wander = makeNoise(rng);
+  const [cr, cg, cb] = parseColor(color);
 
   // the letter's edge, softened: bristles decide for themselves where they
   // stop, so the sides of each stroke come out streaky rather than cut
@@ -128,10 +141,10 @@ export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, animate: b
       const n = dry(x / (unit * 0.05), y / (unit * 0.05)) * 0.18;
       const a = smoothstep(0.62, 0.9, e + n);
       if (a <= 0) continue;
-      cd[i * 4] = 255;
-      cd[i * 4 + 1] = 255;
-      cd[i * 4 + 2] = 255;
-      cd[i * 4 + 3] = 128 * a;
+      cd[i * 4] = cr;
+      cd[i * 4 + 1] = cg;
+      cd[i * 4 + 2] = cb;
+      cd[i * 4 + 3] = (small ? 150 : 128) * a;
     }
   }
   oc.putImageData(core, 0, 0);
@@ -149,18 +162,18 @@ export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, animate: b
   }
   oc.globalCompositeOperation = 'source-over';
   oc.lineCap = 'round';
-  oc.strokeStyle = '#ffffff';
+  oc.strokeStyle = `rgb(${cr},${cg},${cb})`;
 
   // bristles: streaks of white traced along the letter's own direction
   const step = unit * 0.006;
-  const seeds = Math.round((W * H) / (unit * unit * 0.00042));
+  const seeds = Math.round((W * H) / (unit * unit * (small ? 0.0011 : 0.00042)));
   for (let s = 0; s < seeds; s++) {
     const sx = rng() * W;
     const sy = rng() * H;
     if (edgeAt(sx, sy) < 0.35) continue;
     // where this bristle gives out: some run past the letter's edge, some
     // fall short of it — together they make a ragged, natural margin
-    const reach = 0.12 + rng() * 0.5;
+    const reach = small ? 0.38 + rng() * 0.3 : 0.12 + rng() * 0.5;
     const drift = (rng() - 0.5) * unit * 0.012;
     const pts: number[] = [];
     for (const sign of [1, -1]) {
@@ -194,7 +207,8 @@ export function paintName(el: HTMLElement, canvas: HTMLCanvasElement, animate: b
       }
     }
     if (pts.length < 8) continue;
-    const width = unit * (0.003 + rng() * 0.009);
+    // at small sizes, keep bristles at least a hair wide so the texture shows
+    const width = Math.max(k * 0.6, unit * (small ? 0.008 + rng() * 0.016 : 0.003 + rng() * 0.009));
     // some bristles carry plenty of paint, some are nearly dry
     const alpha = rng() < 0.3 ? 0.15 + rng() * 0.25 : 0.55 + rng() * 0.45;
     const n = pts.length / 2;

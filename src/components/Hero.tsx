@@ -4,7 +4,7 @@ import { FACADE, paintFacade, type FacadeArt } from '../paint/facade';
 import { MOODS, MOOD_LABEL, PAINTING_TITLE, type Mood } from '../lib/mood';
 import { RESUME_URL } from '../data/content';
 import { smoothstep } from '../paint/rng';
-import { paintName } from '../paint/name';
+import { useBrushName } from './useBrushName';
 
 interface Props {
   mood: Mood;
@@ -91,48 +91,8 @@ export default function Hero({ mood, onMood, onResume }: Props) {
     };
   }, []);
 
-  // the name, painted in pointillist dabs over its own (invisible) text
-  useEffect(() => {
-    const el = nameRef.current;
-    const cv = nameCanvas.current;
-    if (!el || !cv) return;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let cancel = () => {};
-    let width = 0;
-    let timer = 0;
-    let alive = true;
-    const paint = (animate: boolean) => {
-      cancel();
-      try {
-        cancel = paintName(el, cv, animate);
-        el.classList.add('is-painted');
-      } catch {
-        el.classList.remove('is-painted');
-      }
-    };
-    const fontsReady = Promise.race([
-      document.fonts.load(`800 100px "Mona Sans"`).catch(() => null),
-      new Promise((r) => setTimeout(r, 2500)),
-    ]);
-    fontsReady.then(() => {
-      if (!alive) return;
-      width = el.offsetWidth;
-      paint(!reduced);
-    });
-    const ro = new ResizeObserver(() => {
-      if (!width || Math.abs(el.offsetWidth - width) < 1) return;
-      width = el.offsetWidth;
-      window.clearTimeout(timer);
-      timer = window.setTimeout(() => paint(false), 150);
-    });
-    ro.observe(el);
-    return () => {
-      alive = false;
-      cancel();
-      ro.disconnect();
-      window.clearTimeout(timer);
-    };
-  }, []);
+  // the name, brushed in white over its own (invisible) text
+  useBrushName(nameRef, nameCanvas, { color: '#ffffff', animate: true });
 
   useEffect(() => {
     moodRef.current = mood;
@@ -270,7 +230,7 @@ export default function Hero({ mood, onMood, onResume }: Props) {
         <div className="hero__intro" ref={introRef}>
           <h1 className="hero__name" ref={nameRef}>
             Xinyuan Hu
-            <canvas className="hero__name-paint" ref={nameCanvas} aria-hidden="true" />
+            <canvas className="brush-paint" ref={nameCanvas} aria-hidden="true" />
           </h1>
           <p className="hero__lede">
             I build things with language models: agents that run on your phone,

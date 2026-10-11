@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Hero from './components/Hero';
 import { About, Contact, Experience, Papers, Projects } from './components/Sections';
 import ResumeDialog from './components/ResumeDialog';
+import { useBrushName } from './components/useBrushName';
 import { initialMood, THEME_COLOR, type Mood } from './lib/mood';
 import { wallTile } from './paint/wall';
 import { RESUME_URL } from './data/content';
@@ -11,6 +12,10 @@ const PHONE_QUERY = '(max-width: 760px), (pointer: coarse)';
 export default function App() {
   const [mood, setMood] = useState<Mood>(initialMood);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const barName = useRef<HTMLAnchorElement>(null);
+  const barCanvas = useRef<HTMLCanvasElement>(null);
+  // the same brushed name as the landing page, in ink
+  useBrushName(barName, barCanvas);
 
   useEffect(() => {
     document.documentElement.dataset.mood = mood;
@@ -48,8 +53,9 @@ export default function App() {
         Skip to content
       </a>
       <header className="topbar" aria-label="Site">
-        <a className="topbar__name" href="#top">
+        <a className="topbar__name" href="#top" ref={barName}>
           Xinyuan Hu
+          <canvas className="brush-paint" ref={barCanvas} aria-hidden="true" />
         </a>
         <nav aria-label="Rooms">
           <a href="#about">About</a>
@@ -71,10 +77,6 @@ export default function App() {
       </main>
       <footer className="colophon">
         <p>© {new Date().getFullYear()} Xinyuan (Nate) Hu</p>
-        <p>
-          Every painting here is generated in your browser when you visit, so no two visits hang the
-          same pictures. Set in Mona Sans.
-        </p>
       </footer>
       <ResumeDialog open={resumeOpen} onClose={() => setResumeOpen(false)} />
     </>
