@@ -1,0 +1,1030 @@
+/* ─────────────────────────────────────────────────────────────
+   Tokens. One painting, four kinds of spring weather; the wall
+   takes its tint from whichever one is hanging. Type is a modern
+   layer laid over the paint, never part of it.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --font: 'Mona Sans', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+
+  --gutter: clamp(16px, 5vw, 72px);
+  --primer: #aebbb4;
+  --label-bg: #f8faf8;
+  --label-ink: #12303a;
+  --label-soft: #546b72;
+  --wall-tile: none;
+
+  /* noon is the fallback */
+  --wall: #e0ebe5;
+  --ink: #12303a;
+  --soft: #49646d;
+  --accent: #0f6873;
+  --line: rgb(18 48 58 / 0.14);
+  --hero-ink: #10293b;
+  --hero-soft: rgb(16 41 59 / 0.82);
+  --hero-glow: rgb(255 255 255 / 0.5);
+}
+
+:root[data-mood='morning'] {
+  --wall: #dfe8ea;
+  --accent: #165e79;
+}
+
+:root[data-mood='breeze'] {
+  --wall: #dbe9e2;
+  --accent: #0e6a64;
+}
+
+:root[data-mood='rain'] {
+  --wall: #dbe3e8;
+  --ink: #142c3c;
+  --accent: #1c5b80;
+}
+
+/* ── base ── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--wall);
+  background-image: var(--wall-tile);
+  background-size: 380px 380px;
+  background-blend-mode: soft-light;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-feature-settings: 'kern', 'liga';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition:
+    background-color 1.4s ease,
+    color 1.4s ease;
+}
+
+img,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--wall);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: 12px;
+  z-index: 10;
+  padding: 8px 14px;
+  background: var(--label-bg);
+  color: var(--label-ink);
+  transform: translateY(-200%);
+}
+.skip:focus {
+  transform: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Hero: the painting, the name, and the wall label
+   ───────────────────────────────────────────────────────────── */
+
+/* The hero is the first scene of a walk: a tall runway with the painting
+   pinned on screen while the scroll moves the viewer up the track. */
+.journey {
+  position: relative;
+  height: 340vh;
+  height: 340svh;
+}
+
+.hero {
+  --out: 0;
+  position: sticky;
+  top: 0;
+  isolation: isolate;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(88px, 12.5vh, 150px) var(--gutter) clamp(16px, 4vh, 40px);
+  background: var(--primer);
+  color: var(--hero-ink);
+  overflow: hidden;
+}
+
+.hero > nav,
+.hero > .hero__intro,
+.hero > .placard,
+.hero > .hero__scroll {
+  z-index: 2;
+}
+
+/* as the walk begins, the type drifts off past the edges of sight */
+.hero[data-scattered='true'] > nav,
+.hero[data-scattered='true'] > .hero__intro,
+.hero[data-scattered='true'] > .placard {
+  pointer-events: none;
+}
+
+.hero__paint {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.hero__paint canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__nav {
+  position: absolute;
+  top: clamp(16px, 3.2vh, 30px);
+  right: var(--gutter);
+  opacity: calc(1 - var(--out) * 3);
+  transform: translateY(calc(var(--out) * -80px));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px clamp(16px, 2.2vw, 32px);
+  font-size: 1rem;
+  font-weight: 500;
+  text-shadow: 0 0 14px var(--hero-glow);
+}
+
+.hero__nav a {
+  color: var(--hero-ink);
+  text-decoration: none;
+  padding: 4px 0;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.35s ease;
+}
+.hero__nav a:hover {
+  background-size: 100% 1.5px;
+}
+
+.hero :focus-visible {
+  outline-color: var(--hero-ink);
+}
+
+.hero__intro {
+  position: relative;
+  max-width: 40rem;
+}
+
+/* The name is a watercolour wash laid over the painting (a canvas inside
+   the heading); the heading's own text stays underneath, invisible, for
+   screen readers and search. */
+.hero__name {
+  position: relative;
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: clamp(3.75rem, 11.5vw, 10.5rem);
+  line-height: 0.88;
+  white-space: nowrap;
+  margin-left: -0.05em;
+  padding-bottom: 0.06em;
+  color: #fbfaf5;
+  transform: translate3d(calc(var(--out) * -34vw), calc(var(--out) * -26vh), 0)
+    scale(calc(1 + var(--out) * 0.3));
+  transform-origin: 0 50%;
+  opacity: calc(1 - var(--out) * 1.4);
+}
+.hero__name.is-painted {
+  color: transparent;
+}
+
+.hero__name-paint {
+  position: absolute;
+  pointer-events: none;
+}
+.hero__name:not(.is-painted) .hero__name-paint {
+  display: none;
+}
+
+.hero__lede {
+  margin-top: clamp(18px, 3vh, 30px);
+  max-width: 36ch;
+  font-size: clamp(1.125rem, 1.45vw, 1.375rem);
+  line-height: 1.45;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  text-shadow: 0 0 18px var(--hero-glow);
+  transform: translate3d(calc(var(--out) * -46vw), calc(var(--out) * -4vh), 0);
+  opacity: calc(1 - var(--out) * 1.8);
+}
+
+.hero__meta {
+  margin-top: 10px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--hero-soft);
+  text-shadow: 0 0 14px var(--hero-glow);
+  transform: translate3d(calc(var(--out) * -50vw), calc(var(--out) * 8vh), 0);
+  opacity: calc(1 - var(--out) * 2);
+}
+
+/* the wall label beside a painting */
+.placard {
+  position: relative;
+  transform: translate3d(calc(var(--out) * -36vw), calc(var(--out) * 46vh), 0) rotate(calc(var(--out) * -8deg));
+  opacity: calc(1 - var(--out) * 1.6);
+  align-self: flex-start;
+  width: min(24rem, 100%);
+  padding: 16px 18px 15px;
+  background: var(--label-bg);
+  color: var(--label-ink);
+  box-shadow:
+    0 1px 1px rgb(20 22 40 / 0.2),
+    0 14px 28px -14px rgb(20 22 40 / 0.55);
+}
+
+.placard :focus-visible {
+  outline-color: var(--label-ink);
+}
+
+.placard__title {
+  font-size: 1.0625rem;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.placard__medium {
+  margin-top: 4px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--label-soft);
+}
+
+.placard__moods {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid rgb(35 40 63 / 0.14);
+}
+
+.placard__prompt {
+  font-size: 0.9375rem;
+  color: var(--label-soft);
+}
+
+.placard__moods button {
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 2px 0 3px;
+  border: 0;
+  background: none;
+  color: var(--label-ink);
+  cursor: pointer;
+  background-image: linear-gradient(var(--label-ink), var(--label-ink));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 2px;
+  transition: background-size 0.3s ease;
+}
+.placard__moods button:hover {
+  background-size: 100% 1px;
+}
+.placard__moods button[aria-pressed='true'] {
+  background-size: 100% 2px;
+}
+
+@media (hover: none) {
+  .section__note {
+    display: none;
+  }
+}
+
+.hero__scroll {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(16px, 4vh, 40px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  text-shadow: 0 0 14px var(--hero-glow);
+  opacity: calc(1 - var(--out) * 5);
+}
+/* a footfall, pacing downward */
+.hero__scroll::after {
+  content: '';
+  width: 2px;
+  height: 26px;
+  border-radius: 2px;
+  background: linear-gradient(currentColor 0 40%, transparent 40%) 0 0 / 100% 200%;
+  animation: pace 1.8s ease-in-out 3;
+}
+@keyframes pace {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 -100%;
+  }
+}
+
+/* the farmhouse up close: rides the same camera as the painting */
+.facade {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  transform-origin: 0 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+}
+
+.facade__wall,
+.facade__wall canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__veil {
+  --vx: 50%;
+  --vy: 50%;
+  --vr: 0px;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  background-color: var(--wall);
+  background-image:
+    radial-gradient(circle at var(--vx) var(--vy), rgb(255 254 246 / 0.55), transparent 60%),
+    var(--wall-tile);
+  background-size: auto, 380px 380px;
+  background-blend-mode: normal, soft-light;
+  /* a soft-edged pool of light that widens from the doorway */
+  -webkit-mask-image: radial-gradient(circle at var(--vx) var(--vy), #000 calc(var(--vr) * 0.62), transparent var(--vr));
+  mask-image: radial-gradient(circle at var(--vx) var(--vy), #000 calc(var(--vr) * 0.62), transparent var(--vr));
+}
+
+/* inside the house, a slim bar keeps the rooms in reach */
+.topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px var(--gutter);
+  background: var(--wall);
+  border-bottom: 1px solid var(--line);
+  transform: translateY(-101%);
+  transition:
+    transform 0.4s ease,
+    background-color 1.4s ease;
+}
+:root[data-inside='true'] .topbar {
+  transform: none;
+}
+
+.topbar__name {
+  font-size: 1.125rem;
+  font-weight: 750;
+  font-stretch: 125%;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.topbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px clamp(14px, 2vw, 26px);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.topbar nav a {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.3s ease;
+}
+.topbar nav a:hover {
+  background-size: 100% 1.5px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   The wall
+   ───────────────────────────────────────────────────────────── */
+
+.wall {
+  position: relative;
+  padding-top: clamp(88px, 9vw, 128px);
+}
+
+.section {
+  max-width: calc(1240px + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  scroll-margin-top: 72px;
+}
+
+.section + .section {
+  margin-top: clamp(120px, 16vw, 208px);
+}
+
+.section__title {
+  font-weight: 650;
+  font-stretch: 115%;
+  font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+
+.section__note {
+  margin: calc(-1 * clamp(16px, 2.5vw, 32px)) 0 clamp(36px, 5vw, 56px);
+  font-size: 1rem;
+  color: var(--soft);
+}
+
+/* ── about ── */
+
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(40px, 7vw, 112px);
+}
+
+.about__story p + p {
+  margin-top: 1.1em;
+}
+
+.about__story p:not(.about__lead) {
+  max-width: 34em;
+}
+
+.about__lead {
+  font-size: clamp(1.4375rem, 2.3vw, 1.9375rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.about__facts > div + div {
+  margin-top: 28px;
+}
+
+.about__facts dt {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--soft);
+  margin-bottom: 6px;
+}
+
+.about__facts dd + dd {
+  margin-top: 10px;
+}
+
+.about__facts dd span {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--soft);
+}
+
+/* ── frames and paintings ── */
+
+/* white frames, as the impressionists hung their own shows */
+.frame {
+  position: relative;
+  padding: clamp(10px, 1.25vw, 16px);
+  background: linear-gradient(152deg, #fcfbf7 0%, #f0eee7 52%, #e3e0d7 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.85),
+    inset -1px -2px 2px rgb(60 55 70 / 0.12),
+    0 1px 1px rgb(20 22 40 / 0.16),
+    0 24px 38px -24px rgb(20 22 40 / 0.6);
+}
+
+.painted {
+  position: relative;
+  overflow: hidden;
+  background: var(--primer);
+}
+
+/* the rebate's shadow falling onto the canvas */
+.painted::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgb(40 36 50 / 0.18),
+    inset 2px 2px 4px rgb(40 36 50 / 0.3);
+}
+
+.painted__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    filter 0.6s ease,
+    transform 0.6s ease;
+}
+.painted__photo--contain {
+  object-fit: contain;
+  padding: 9%;
+}
+.painted:not(.is-painted) .painted__photo {
+  filter: blur(14px) saturate(0.7);
+  transform: scale(1.08);
+}
+
+.painted__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.is-painted .painted__canvas {
+  opacity: 1;
+}
+
+/* lift the paint to show what it was painted from */
+.work:hover .painted__canvas,
+.work:focus-visible .painted__canvas,
+.paper:hover .painted__canvas,
+.paper:focus-visible .painted__canvas {
+  opacity: 0;
+  transition-duration: 0.45s;
+}
+
+/* ── projects: a salon hang ── */
+
+.hang {
+  --drop: clamp(80px, 11vw, 168px);
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(40px, 7vw, 112px);
+  row-gap: clamp(72px, 9vw, 128px);
+  padding-bottom: var(--drop);
+}
+
+.hang__item:nth-child(even) {
+  transform: translateY(var(--drop));
+}
+.hang__item:nth-child(4n + 1) .frame {
+  width: 90%;
+}
+.hang__item:nth-child(4n + 2) .frame {
+  width: 72%;
+}
+.hang__item:nth-child(4n + 3) .frame {
+  width: 100%;
+}
+.hang__item:nth-child(4n) .frame {
+  width: 94%;
+}
+
+/* ── projects, on wide screens: a walk along the gallery wall ── */
+
+.gallery {
+  max-width: none;
+  padding-inline: 0;
+}
+
+.gallery__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gallery__track {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: clamp(64px, 7vw, 128px);
+  padding: 56px max(var(--gutter), calc((100vw - 1240px) / 2)) 0;
+  will-change: transform;
+}
+
+.gallery__intro {
+  flex: 0 0 auto;
+  width: min(24rem, 28vw);
+}
+.gallery__intro .section__title {
+  margin-bottom: 20px;
+}
+.gallery__intro .section__note {
+  margin: 0;
+}
+
+.gallery__item {
+  flex: 0 0 auto;
+}
+.gallery__item:nth-child(odd) {
+  transform: translateY(5vh);
+}
+.gallery__item:nth-child(even) {
+  transform: translateY(-5vh);
+}
+.gallery__item .label {
+  max-width: 26rem;
+}
+
+.work {
+  display: block;
+  text-decoration: none;
+}
+
+.label {
+  margin-top: 22px;
+  max-width: 29rem;
+}
+
+.label__title {
+  font-weight: 650;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.label__kind {
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+.label__medium {
+  font-size: 0.9375rem;
+  color: var(--soft);
+}
+
+.label__desc {
+  margin-top: 12px;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.label__link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 1px;
+  transition: background-size 0.3s ease;
+}
+.work:hover .label__link,
+.paper:hover .label__link {
+  background-size: 100% 2px;
+}
+
+/* ── papers ── */
+
+.papers {
+  list-style: none;
+  display: grid;
+  gap: clamp(48px, 6vw, 72px);
+}
+
+.paper {
+  display: grid;
+  grid-template-columns: minmax(180px, 300px) minmax(0, 1fr);
+  gap: clamp(24px, 4.5vw, 64px);
+  align-items: center;
+  text-decoration: none;
+}
+
+.paper .frame {
+  padding: 10px;
+}
+
+.paper__venue {
+  font-size: 1rem;
+  color: var(--soft);
+}
+
+.paper__title {
+  margin-top: 6px;
+  max-width: 32em;
+  font-weight: 550;
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* ── experience: a chronology ── */
+
+.chrono {
+  list-style: none;
+}
+
+.chrono__item {
+  display: grid;
+  grid-template-columns: minmax(120px, 13rem) minmax(0, 1fr);
+  gap: clamp(12px, 4vw, 56px);
+  padding: 30px 0 32px;
+  border-top: 1px solid var(--line);
+}
+.chrono__item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.chrono__when {
+  padding-top: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--soft);
+}
+
+.chrono__role {
+  font-weight: 650;
+  font-size: 1.375rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.chrono__org {
+  margin-top: 2px;
+  color: var(--soft);
+}
+
+.chrono__notes {
+  margin-top: 14px;
+  padding-left: 1.1em;
+  max-width: 40em;
+  list-style: disc;
+}
+.chrono__notes li + li {
+  margin-top: 8px;
+}
+.chrono__notes li::marker {
+  color: var(--soft);
+}
+
+.chrono__stack {
+  margin-top: 14px;
+  font-size: 0.9375rem;
+  color: var(--soft);
+}
+
+/* ── contact ── */
+
+.contact {
+  padding-bottom: clamp(88px, 12vw, 160px);
+}
+
+.contact__email {
+  display: inline-block;
+  font-weight: 650;
+  font-stretch: 115%;
+  font-size: clamp(1.625rem, 5vw, 3.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+  background: linear-gradient(var(--accent), var(--accent)) 0 96% / 100% 2px no-repeat;
+  overflow-wrap: anywhere;
+}
+.contact__email:hover {
+  color: var(--accent);
+}
+
+.contact__links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 32px;
+  margin-top: 36px;
+}
+
+.contact__links a {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 1px;
+}
+.contact__links a:hover {
+  background-size: 100% 2px;
+}
+
+.colophon {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px var(--gutter) 48px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 40px;
+  font-size: 0.9375rem;
+  color: var(--soft);
+}
+.colophon::before {
+  content: '';
+  flex-basis: 100%;
+  border-top: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.colophon p:last-child {
+  max-width: 50ch;
+}
+
+/* ── résumé dialog ── */
+
+.resume {
+  margin: auto;
+  width: min(94vw, 920px);
+  height: min(90vh, 1160px);
+  border: 0;
+  padding: 0;
+  background: var(--label-bg);
+  color: var(--label-ink);
+  box-shadow: 0 30px 80px -20px rgb(10 12 24 / 0.6);
+  flex-direction: column;
+}
+.resume[open] {
+  display: flex;
+}
+.resume::backdrop {
+  background: rgb(14 16 32 / 0.55);
+}
+
+.resume__bar {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 14px 22px;
+  border-bottom: 1px solid rgb(35 40 63 / 0.14);
+}
+
+.resume__title {
+  margin-right: auto;
+  font-size: 1.125rem;
+  font-weight: 650;
+}
+
+.resume__bar a,
+.resume__bar button {
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--label-ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.resume__doc {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #fff;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Small screens
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+  body {
+    font-size: 1.0625rem;
+  }
+
+  .hero {
+    padding-top: 100px;
+  }
+
+  .hero__nav {
+    left: var(--gutter);
+    right: var(--gutter);
+    gap: 4px 14px;
+    font-size: 0.875rem;
+  }
+
+  .hero__name {
+    font-size: min(18vw, 6.5rem);
+  }
+
+  .placard {
+    width: 100%;
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+
+  .topbar__name {
+    display: none;
+  }
+
+  .topbar nav {
+    gap: 4px 14px;
+    font-size: 0.875rem;
+  }
+
+  .about__grid,
+  .paper {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hang {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 0;
+  }
+  .hang__item:nth-child(even) {
+    transform: none;
+  }
+  .hang__item:nth-child(n) .frame {
+    width: 100%;
+  }
+  .hang__item:nth-child(4n + 2) .frame {
+    width: 82%;
+  }
+
+  .paper .frame {
+    width: min(100%, 360px);
+  }
+
+  .chrono__item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /* no walk: the painting is simply the first thing on the page */
+  .journey {
+    height: auto;
+  }
+  .hero {
+    position: relative;
+    height: auto;
+    min-height: max(600px, 100svh);
+  }
+  .facade,
+  .hero__veil,
+  .hero__scroll {
+    display: none;
+  }
+  .hero__name {
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
