@@ -100,7 +100,7 @@ header,footer{display:flex;justify-content:space-between;align-items:center;gap:
 .toggle{font-size:14.5px;border:1px solid var(--line);border-radius:999px;padding:7px 15px;
   background:color-mix(in srgb,var(--bg) 60%,transparent);transition:background .2s,color .2s}
 .toggle:hover{background:var(--ink);color:var(--bg)}
-.tools{display:inline-flex;gap:8px;align-items:center}
+.tools{display:inline-flex;gap:8px;align-items:center;flex-shrink:0;white-space:nowrap}
 .toggle.round{width:36px;height:36px;padding:0;display:grid;place-items:center;
   border-radius:13px 8px 14px 9px / 9px 14px 8px 13px;transform:rotate(-4deg);
   transition:background .2s,color .2s,transform .3s cubic-bezier(.2,.9,.3,1.4)}
@@ -120,6 +120,15 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 .chip:hover{transform:translateY(-.05em) rotate(-1.2deg)}
 .chip[aria-pressed="true"]{background:oklch(var(--sl) var(--sc) var(--c));color:var(--on-solid);transform:rotate(-1.2deg)}
 .hint{margin-top:clamp(18px,2.6vw,30px)}
+/* each word is its own box so it can glide to its new place when the layout changes (script: "make room") */
+.say .wd{display:inline-block}
+.say .nb{white-space:nowrap}
+@media (min-width:901px){
+  /* at rest the sentences have the whole page; opening a word makes room for its card on the right */
+  :root[data-idle] main{grid-template-columns:minmax(0,1fr) 0;column-gap:0}
+  :root[data-idle] .side{overflow:hidden}
+  :root[data-idle] .say{font-size:clamp(1.65rem,4.3vw,4.6rem)}
+}
 
 /* the card */
 .side{position:sticky;top:20px}
@@ -129,9 +138,6 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   opacity:0;visibility:hidden;transform:translateY(14px) scale(.975);
   transition:opacity .35s,transform .5s cubic-bezier(.2,.9,.3,1.15),visibility 0s .35s}
 .card.on{opacity:1;visibility:visible;transform:none;transition-delay:0s,0s,0s}
-.card.intro{background:color-mix(in srgb,var(--bg) 55%,transparent);border:1.5px dashed var(--line)}
-.dots{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
-.dots i{width:18px;height:18px;border-radius:50%;background:oklch(var(--sl) var(--sc) var(--c))}
 :root[data-idle] .glow{opacity:.3}
 .glow{transition:opacity .6s}
 .tag{font-size:14.5px;font-weight:500;opacity:.66}
@@ -198,7 +204,6 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 @media (max-width:900px){
   main{grid-template-columns:minmax(0,1fr)}
   .side{display:none}
-  .card.intro.on{display:none}
   .say .stage{font-size:17px;letter-spacing:0;line-height:1.5;font-weight:400;margin:.2em 0 .5em}
   .card{display:none;transition:none}
   .card.on{display:flex;animation:pop .45s cubic-bezier(.2,.9,.3,1.15)}
@@ -289,13 +294,6 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
             <div><b>20</b><span class="en">Concurrent workers, zero data loss</span><span class="zh">并发 worker，零数据丢失</span></div>
           </div>
           <div class="stack">Python · Gemini · PyMuPDF · pgvector · PostgreSQL · Temporal · Go · TypeScript</div>
-        </article>
-
-        <article class="card intro on" data-k="intro">
-          <div class="tag"><span class="en">Nothing open yet</span><span class="zh">还没有打开任何内容</span></div>
-          <h2><span class="en">Pick a word.</span><span class="zh">选一个词。</span></h2>
-          <p><span class="en">Hover or tap any highlighted word and it opens here. Tap it again to close.</span><span class="zh">把鼠标移到任意高亮的词上，或者点一下，内容会在这里展开。再点一次收起。</span></p>
-          <div class="dots" aria-hidden="true"><i style="--c:115"></i><i style="--c:258"></i><i style="--c:20"></i><i style="--c:310"></i><i style="--c:215"></i><i style="--c:140"></i><i style="--c:55"></i><i style="--c:285"></i><i style="--c:90"></i><i style="--c:175"></i><i style="--c:350"></i></div>
         </article>
 
         <article class="card" data-k="me" style="--c:115">
@@ -468,7 +466,56 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 (function(){
   var root=document.documentElement, chips=document.querySelectorAll('.chip'), cards=document.querySelectorAll('.card'),
       stage=document.getElementById('stage'), side=document.getElementById('side'), narrow=window.matchMedia('(max-width:900px)');
-  var current='intro', timer=null;
+  var current='intro', timer=null, still=window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* make room: wrap every word of the sentences in a box (each Chinese character is its own word, with closing
+     punctuation kept on the one before it, and punctuation that follows a highlighted word stays glued to it) */
+  var CJK=/[㐀-鿿]/, CLOSE=/[，。、；：！？,.;:!?]/;
+  function words(text){
+    var out=[], prev='';
+    Array.from(text).forEach(function(c){
+      if(!out.length||(!CLOSE.test(c)&&(CJK.test(c)||CJK.test(prev)))) out.push(c); else out[out.length-1]+=c;
+      prev=c;
+    });
+    return out;
+  }
+  document.querySelectorAll('.say p').forEach(function(p){
+    Array.from(p.childNodes).forEach(function(node){
+      if(node.nodeType!==3||!node.nodeValue.trim()) return;
+      var frag=document.createDocumentFragment(), before=node.previousSibling, glue=null;
+      node.nodeValue.split(/(\s+)/).forEach(function(part,n){
+        if(!part) return;
+        if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(' ')); return; }
+        words(part).forEach(function(word,m){
+          var w=document.createElement('span'); w.className='wd'; w.textContent=word;
+          if(n===0&&m===0&&before&&before.nodeType===1&&before.classList.contains('chip')) glue=w; else frag.appendChild(w);
+        });
+      });
+      p.replaceChild(frag,node);
+      if(glue){ var nb=document.createElement('span'); nb.className='nb'; p.insertBefore(nb,before); nb.appendChild(before); nb.appendChild(glue); }
+    });
+  });
+  /* When the page switches between "sentences only" and "sentences + card", the words reflow at once and then
+     each one glides from where it was to where it now is (and from its old size to its new one). Only transforms
+     move, so nothing is laid out again while it animates. */
+  var gliding=[];
+  function boxes(){ return Array.from(document.querySelectorAll('.say .wd, .say .chip, .hint')).filter(function(el){ return el.offsetParent; }); }
+  function measure(){ return boxes().map(function(el){ return {el:el,r:el.getBoundingClientRect()}; }); }
+  function glide(first){
+    gliding.forEach(function(a){ a.cancel(); }); gliding=[];
+    if(still.matches) return;
+    first.forEach(function(f){
+      var r=f.el.getBoundingClientRect(); if(!r.width||!f.r.width) return;
+      var dx=(f.r.left+f.r.width/2)-(r.left+r.width/2), dy=(f.r.top+f.r.height/2)-(r.top+r.height/2), s=f.r.height/r.height;
+      if(Math.abs(dx)<.5&&Math.abs(dy)<.5&&Math.abs(s-1)<.005) return;
+      gliding.push(f.el.animate([{translate:dx.toFixed(1)+'px '+dy.toFixed(1)+'px',scale:s.toFixed(4)},{translate:'0px 0px',scale:'1'}],
+        {duration:620,easing:'cubic-bezier(.2,.8,.2,1)'}));
+    });
+  }
+  /* after the layout moves, the word that was under the pointer is somewhere else; don't let whatever slid under
+     the pointer open by itself. Hover opens again once the pointer has actually moved. */
+  var lock=null, ptr={x:-1,y:-1};
+  addEventListener('pointermove',function(e){ if(lock&&Math.abs(e.clientX-lock.x)+Math.abs(e.clientY-lock.y)>6) lock=null; ptr.x=e.clientX; ptr.y=e.clientY; },{passive:true});
 
   // On narrow screens the card sits right under the sentence that holds the active word.
   function place(){
@@ -480,7 +527,9 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   }
   function show(k,clicked){
     if(k===current){ if(!clicked) return; k='intro'; }   // tapping the open word closes it
-    current=k; root.toggleAttribute('data-idle',k==='intro');
+    var idle=k==='intro', first=!narrow.matches&&idle!==root.hasAttribute('data-idle')?measure():null;
+    current=k; root.toggleAttribute('data-idle',idle);
+    if(first){ glide(first); lock={x:ptr.x,y:ptr.y}; }
     chips.forEach(function(c){ c.setAttribute('aria-pressed', c.dataset.k===k?'true':'false'); });
     cards.forEach(function(c){
       var on=c.dataset.k===k; c.classList.toggle('on',on);
@@ -494,9 +543,18 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   }
   chips.forEach(function(c){
     c.addEventListener('click',function(){ clearTimeout(timer); show(c.dataset.k,true); });
-    c.addEventListener('pointerenter',function(e){ if(e.pointerType!=='mouse'||narrow.matches) return; clearTimeout(timer); timer=setTimeout(function(){show(c.dataset.k);},110); });
+    c.addEventListener('pointerenter',function(e){ if(e.pointerType!=='mouse'||narrow.matches||lock) return; clearTimeout(timer); timer=setTimeout(function(){show(c.dataset.k);},110); });
     c.addEventListener('pointerleave',function(){ clearTimeout(timer); });
   });
+  /* back to the sentences alone: Esc, a click on empty space, or the pointer leaving the page for a moment */
+  addEventListener('keydown',function(e){ if(e.key==='Escape'&&current!=='intro') show(current,true); });
+  document.addEventListener('click',function(e){
+    if(current==='intro'||narrow.matches||e.target.closest('.chip,.card,button,a,header,.wd')) return;
+    show(current,true);
+  });
+  var away=null;
+  document.documentElement.addEventListener('pointerleave',function(e){ if(e.pointerType!=='mouse'||narrow.matches) return; away=setTimeout(function(){ if(current!=='intro') show(current,true); },600); });
+  document.documentElement.addEventListener('pointerenter',function(){ clearTimeout(away); });
   try{ narrow.addEventListener('change',place); }catch(e){}
 
   /* clock */
