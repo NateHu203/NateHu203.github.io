@@ -141,7 +141,14 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 :root[data-idle] .glow{opacity:.3}
 .glow{transition:opacity .6s}
 .tag{font-size:14.5px;font-weight:500;opacity:.66}
-.card h2{font-weight:600;font-size:clamp(1.6rem,2.3vw,2.1rem);line-height:1.1;letter-spacing:-.03em;text-wrap:balance}
+.card h2{position:relative;font-weight:600;font-size:clamp(1.6rem,2.3vw,2.1rem);line-height:1.1;letter-spacing:-.03em;text-wrap:balance}
+/* title reveal (script: "title reveal"): letters exist as boxes only while the title is assembling */
+.tt-w{white-space:nowrap}
+.tt-c{display:inline-block;-webkit-text-stroke:1.2px transparent}
+.tt-frame{position:absolute;pointer-events:none;border:1px dashed color-mix(in srgb,currentColor 50%,transparent)}
+.tt-frame i{position:absolute;width:7px;height:7px;box-sizing:border-box;background:var(--bg);border:1px solid currentColor}
+.tt-frame i:nth-child(1){left:-4px;top:-4px}.tt-frame i:nth-child(2){right:-4px;top:-4px}
+.tt-frame i:nth-child(3){left:-4px;bottom:-4px}.tt-frame i:nth-child(4){right:-4px;bottom:-4px}
 .card p{font-size:16.5px;line-height:1.5;opacity:.84}
 .nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border-block:1px solid var(--line);margin-top:4px}
 .nums div{background:oklch(var(--cl) var(--cc) var(--c));padding:14px 0 14px}
@@ -512,6 +519,53 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
         {duration:620,easing:'cubic-bezier(.2,.8,.2,1)'}));
     });
   }
+  /* title reveal: when a card opens, its title builds itself. Each letter starts as a thin outline, scattered a few
+     pixels off, drifts into place and fills in, while a dashed selection frame with square corner handles closes
+     around the line and lets go. The letters are split out only for the duration, then the plain text comes back. */
+  var rv=null;
+  function stopReveal(){
+    if(!rv) return;
+    clearTimeout(rv.timer); rv.anims.forEach(function(a){ a.cancel(); });
+    rv.host.textContent=rv.text; if(rv.frame.parentNode) rv.frame.remove(); rv=null;
+  }
+  function reveal(card){
+    stopReveal();
+    if(still.matches) return;
+    var h=card.querySelector('h2'); if(!h) return;
+    var host=Array.from(h.children).filter(function(el){ return el.offsetParent; })[0]||h;
+    var text=host.textContent, col=getComputedStyle(h).color, chars=[];
+    host.textContent='';
+    text.split(/(\s+)/).forEach(function(part){
+      if(!part) return;
+      if(/^\s+$/.test(part)){ host.appendChild(document.createTextNode(' ')); return; }
+      words(part).forEach(function(word){
+        var w=document.createElement('span'); w.className='tt-w';
+        Array.from(word).forEach(function(ch){ var c=document.createElement('span'); c.className='tt-c'; c.textContent=ch; w.appendChild(c); chars.push(c); });
+        host.appendChild(w);
+      });
+    });
+    /* the frame hugs the text, measured by layout (not by transforms) so the card's own entrance doesn't skew it */
+    var x0=1e9,y0=1e9,x1=0,y1=0;
+    chars.forEach(function(c){ x0=Math.min(x0,c.offsetLeft); y0=Math.min(y0,c.offsetTop); x1=Math.max(x1,c.offsetLeft+c.offsetWidth); y1=Math.max(y1,c.offsetTop+c.offsetHeight); });
+    var frame=document.createElement('span'); frame.className='tt-frame'; frame.innerHTML='<i></i><i></i><i></i><i></i>';
+    frame.style.cssText='left:'+(x0-9)+'px;top:'+(y0-5)+'px;width:'+(x1-x0+18)+'px;height:'+(y1-y0+10)+'px';
+    h.appendChild(frame);
+    var per=Math.max(7,Math.min(24,520/chars.length)), dur=720, anims=[], end=0;
+    chars.forEach(function(c,i){
+      var delay=i*per+Math.random()*50, dx=(Math.random()*2-1)*9, dy=(Math.random()*2-1)*11+3, rot=(Math.random()*2-1)*9;
+      var off={translate:dx.toFixed(1)+'px '+dy.toFixed(1)+'px',rotate:rot.toFixed(1)+'deg'}, home={translate:'0px 0px',rotate:'0deg'};
+      anims.push(c.animate([
+        {opacity:0,color:'transparent',webkitTextStrokeColor:col,translate:off.translate,rotate:off.rotate},
+        {opacity:1,color:'transparent',webkitTextStrokeColor:col,translate:home.translate,rotate:home.rotate,offset:.5},
+        {opacity:1,color:col,webkitTextStrokeColor:'transparent',translate:home.translate,rotate:home.rotate}
+      ],{duration:dur,delay:delay,easing:'cubic-bezier(.25,.7,.3,1)',fill:'both'}));
+      end=Math.max(end,delay+dur);
+    });
+    anims.push(frame.animate([
+      {opacity:0,transform:'scale(1.07)'},{opacity:1,transform:'scale(1)',offset:.16},{opacity:1,transform:'scale(1)',offset:.8},{opacity:0,transform:'scale(1)'}
+    ],{duration:end+260,easing:'ease-out',fill:'both'}));
+    rv={host:host,text:text,frame:frame,anims:anims,timer:setTimeout(stopReveal,end+300)};
+  }
   /* after the layout moves, the word that was under the pointer is somewhere else; don't let whatever slid under
      the pointer open by itself. Hover opens again once the pointer has actually moved. */
   var lock=null, ptr={x:-1,y:-1};
@@ -527,6 +581,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   }
   function show(k,clicked){
     if(k===current){ if(!clicked) return; k='intro'; }   // tapping the open word closes it
+    stopReveal();
     var idle=k==='intro', first=!narrow.matches&&idle!==root.hasAttribute('data-idle')?measure():null;
     current=k; root.toggleAttribute('data-idle',idle);
     if(first){ glide(first); lock={x:ptr.x,y:ptr.y}; }
@@ -536,6 +591,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
       if(on&&k!=='intro') root.style.setProperty('--h', c.style.getPropertyValue('--c').trim());
     });
     place();
+    if(!idle) reveal(Array.from(cards).filter(function(c){ return c.dataset.k===k; })[0]);
     if(clicked&&narrow.matches){
       var r=stage.getBoundingClientRect();
       if(r.top>innerHeight*0.72) stage.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -576,7 +632,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 
   /* language */
   var btn=document.getElementById('lang');
-  function setLang(l){ if(l==='zh') root.dataset.lang='zh'; else delete root.dataset.lang; root.lang=l==='zh'?'zh-CN':'en'; btn.textContent=l==='zh'?'EN':'中文'; place(); try{localStorage.setItem('nh-lang',l);}catch(e){} }
+  function setLang(l){ stopReveal(); if(l==='zh') root.dataset.lang='zh'; else delete root.dataset.lang; root.lang=l==='zh'?'zh-CN':'en'; btn.textContent=l==='zh'?'EN':'中文'; place(); try{localStorage.setItem('nh-lang',l);}catch(e){} }
   btn.addEventListener('click',function(){ setLang(root.dataset.lang==='zh'?'en':'zh'); });
   var saved=null; try{ saved=localStorage.getItem('nh-lang'); }catch(e){}
   if(saved==='zh') setLang('zh'); else place();
