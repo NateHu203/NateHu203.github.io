@@ -158,6 +158,8 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 .rows{list-style:none;margin-top:auto}
 .rows li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-top:1px solid var(--line);font-weight:500}
 .rows li>span:last-child:not(:first-child),.rows li>.r{flex:none;font-weight:400;font-size:14.5px;opacity:.68;text-align:right;font-variant-numeric:tabular-nums}
+.rows a{text-decoration:none}
+.rows a:hover{text-decoration:underline;text-underline-offset:3px}
 .rows li small{display:block;font-weight:400;font-size:14.5px;line-height:1.4;opacity:.7}
 .icons{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;margin-left:-11px;padding-top:120px}
 .ico{position:relative}
@@ -344,9 +346,9 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
           <h2>How language models reason, and what it costs</h2>
           <p>Three projects as a research assistant to Prof. Fengli Xu.</p>
           <ul class="rows">
-            <li><span>Division-of-Thoughts<small>Edge-cloud LLM collaboration: split a task, keep the easy parts on the device, send the hard parts to the cloud. ACM WWW 2025, second author.</small></span></li>
-            <li><span>Reinforced reasoning<small>A survey of the methods that strengthen reasoning in large language models.</small></span></li>
-            <li><span>LIMP<small>Intent-aware mobility prediction: schema-based agentic workflows that bring human reasoning into the model.</small></span></li>
+            <li><span><a href="https://arxiv.org/abs/2502.04392" target="_blank" rel="noopener">Division-of-Thoughts ↗</a><small>Edge-cloud LLM collaboration: split a task, keep the easy parts on the device, send the hard parts to the cloud. ACM WWW 2025, second author.</small></span></li>
+            <li><span><a href="https://arxiv.org/abs/2501.09686" target="_blank" rel="noopener">Towards Large Reasoning Models ↗</a><small>A survey of reinforced reasoning with large language models: data construction, learning to reason, and test-time scaling.</small></span></li>
+            <li><span><a href="https://arxiv.org/abs/2408.12832" target="_blank" rel="noopener">LIMP ↗</a><small>Intent-aware mobility prediction: schema-based agentic workflows that bring human reasoning into the model.</small></span></li>
           </ul>
         </article>
 
