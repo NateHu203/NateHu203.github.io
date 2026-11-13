@@ -79,7 +79,6 @@
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
-html[data-lang="zh"] .en,html:not([data-lang="zh"]) .zh{display:none}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
@@ -228,93 +227,69 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 <div class="page">
 
   <header>
-    <span class="where small"><i></i><span><span class="en">Cambridge, Massachusetts</span><span class="zh">马萨诸塞州 剑桥</span>, <span id="clock">--:--</span></span></span>
+    <span class="where small"><i></i><span>Cambridge, Massachusetts, <span id="clock">--:--</span></span></span>
     <span class="tools">
-      <button class="toggle round" id="theme" type="button" aria-label="Switch between light and dark"></button>
-      <button class="toggle" id="lang" type="button" aria-label="Switch language">中文</button>
-    </span>
+      <button class="toggle round" id="theme" type="button" aria-label="Switch between light and dark"></button>    </span>
   </header>
 
   <main>
     <div>
       <h1 class="sr">Nate Hu</h1>
 
-      <div class="say en">
-        <p>Hi, I’m <button class="chip" data-k="me" style="--c:115" aria-pressed="false">Nate Hu</button>. I build AI
-          <button class="chip" data-k="huddle" style="--c:258" aria-pressed="false">@Huddle</button>,
+      <div class="say">
+        <p>Hi, I’m <button class="chip" data-k="me" style="--c:115" aria-pressed="false">Xinyuan Hu</button>, you can call me Nate. I build AI
+          <button class="chip" data-k="huddle" style="--c:258" aria-pressed="false">@ Huddle</button>,
           study data science
-          <button class="chip" data-k="harvard" style="--c:20" aria-pressed="false">@Harvard</button>,
-          and research how language models
-          <button class="chip" data-k="research" style="--c:310" aria-pressed="false">reason</button>.</p>
-        <p>Before that I spent four years
-          <button class="chip" data-k="emory" style="--c:215" aria-pressed="false">@Emory</button>,
+          <button class="chip" data-k="harvard" style="--c:20" aria-pressed="false">@ Harvard</button>,
+          and research how
+          <button class="chip" data-k="research" style="--c:310" aria-pressed="false">language models reason</button>.</p>
+        <p>Before that I spent four years (undergrad)
+          <button class="chip" data-k="emory" style="--c:215" aria-pressed="false">@ Emory</button>,
           led the team behind
           <button class="chip" data-k="meditrack" style="--c:140" aria-pressed="false">MediTrack</button>,
-          and interned
-          <button class="chip" data-k="edf" style="--c:55" aria-pressed="false">@EDF</button>
+          and interned as
+          <button class="chip" data-k="edf" style="--c:55" aria-pressed="false">AI Engineer @ EDF</button>
           and
-          <button class="chip" data-k="ysten" style="--c:285" aria-pressed="false">@YSTen</button>.</p>
+          <button class="chip" data-k="ysten" style="--c:285" aria-pressed="false">Data Scientist @ YSTen</button>.</p>
         <p>I grew up in
           <button class="chip" data-k="beijing" style="--c:90" aria-pressed="false">Beijing</button>
-          and have played
+          and loved playing
           <button class="chip" data-k="piano" style="--c:175" aria-pressed="false">piano</button>
-          since I was three.
+          and <button class="chip" data-k="tennis" style="--c:150" aria-pressed="false">tennis</button>.
           <button class="chip" data-k="hello" style="--c:350" aria-pressed="false">Say hello</button></p>
       </div>
 
-      <div class="say zh">
-        <p>你好，我是 <button class="chip" data-k="me" style="--c:115" aria-pressed="false">Nate Hu</button>。我
-          <button class="chip" data-k="huddle" style="--c:258" aria-pressed="false">@Huddle</button>
-          做 AI，
-          <button class="chip" data-k="harvard" style="--c:20" aria-pressed="false">@哈佛</button>
-          读数据科学，研究语言模型如何
-          <button class="chip" data-k="research" style="--c:310" aria-pressed="false">推理</button>。</p>
-        <p>此前我
-          <button class="chip" data-k="emory" style="--c:215" aria-pressed="false">@埃默里</button>
-          读了四年本科，带队做了
-          <button class="chip" data-k="meditrack" style="--c:140" aria-pressed="false">MediTrack</button>，还
-          <button class="chip" data-k="edf" style="--c:55" aria-pressed="false">@EDF</button>
-          和
-          <button class="chip" data-k="ysten" style="--c:285" aria-pressed="false">@YSTen</button>
-          实习过。</p>
-        <p>我在
-          <button class="chip" data-k="beijing" style="--c:90" aria-pressed="false">北京</button>
-          长大，从三岁开始弹
-          <button class="chip" data-k="piano" style="--c:175" aria-pressed="false">钢琴</button>。
-          <button class="chip" data-k="hello" style="--c:350" aria-pressed="false">打个招呼</button></p>
-      </div>
-
-      <p class="hint small"><span class="en">Every highlighted word opens something.</span><span class="zh">每个高亮的词都能点开。</span></p>
+      <p class="hint small">Every highlighted word opens something.</p>
     </div>
 
     <div class="side" id="side">
       <div class="stage" id="stage" aria-live="polite">
 
         <article class="card" data-k="huddle" style="--c:258">
-          <div class="tag"><span class="en">Now · Founding AI Engineer</span><span class="zh">现在 · 创始 AI 工程师</span></div>
-          <h2><span class="en">Reading 500-page bond packages in under a minute</span><span class="zh">一分钟内读完 500 页的保函文件</span></h2>
-          <p><span class="en">Huddle is a surety bond management platform. Underwriters used to key data out of bid packages by hand. I built the pipeline that does it for them, and links every answer back to its exact spot in the PDF.</span><span class="zh">Huddle 是一个保函（surety bond）管理平台。核保人员过去要手动从招标文件里录入数据，我做的管线替他们完成，并且每个答案都能定位回 PDF 里的原始位置。</span></p>
+          <div class="tag">Jan 2026 - Present · Founding Engineer</div>
+          <h2>Analyzing 500-page bond packages in under a minute</h2>
+          <p>Huddle is a surety bond management platform. Underwriters used to key data out of bid packages by hand. I built the pipeline that does it for them, and links every answer back to its exact spot in the PDF.</p>
           <div class="nums">
-            <div><b>30 min → 60 s</b><span class="en">Data entry per bond</span><span class="zh">每份保函的录入时间</span></div>
-            <div><b>77% → 92%</b><span class="en">Field-level extraction accuracy</span><span class="zh">字段级抽取准确率</span></div>
-            <div><b>13</b><span class="en">Field types on the benchmark</span><span class="zh">评测覆盖的字段类型</span></div>
-            <div><b>20</b><span class="en">Concurrent workers, zero data loss</span><span class="zh">并发 worker，零数据丢失</span></div>
+            <div><b>30 min → 60 s</b>Data entry per bond</div>
+            <div><b>77% → 92%</b>Field-level extraction accuracy</div>
+            <div><b>13</b>Field types on the benchmark</div>
+            <div><b>20</b>Concurrent workers, zero data loss</div>
           </div>
           <div class="stack">Python · Gemini · PyMuPDF · pgvector · PostgreSQL · Temporal · Go · TypeScript</div>
         </article>
 
         <article class="card" data-k="me" style="--c:115">
-          <div class="tag"><span class="en">Find me elsewhere</span><span class="zh">在别处找到我</span></div>
+          <div class="tag">Find me elsewhere</div>
           <h2>Xinyuan “Nate” Hu</h2>
-          <p><span class="en">Code, papers, and the professional version of this page. Hover an icon to copy the link or open it.</span><span class="zh">代码、论文，以及这个页面更正式的版本。把鼠标放到图标上，可以复制链接或直接打开。</span></p>
+          <p>Code, papers, and the professional version of this page. Hover to check out!</p>
           <ul class="icons">
             <li class="ico">
               <button type="button" aria-label="GitHub" aria-haspopup="true"><svg class="brand" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></button>
               <div class="pop"><div class="pop-in">
                 <strong>GitHub<small>NateHu203</small></strong>
                 <div class="pop-act">
-                  <button type="button" data-copy="https://github.com/NateHu203"><span class="en">Copy</span><span class="zh">复制</span></button>
-                  <a href="https://github.com/NateHu203" target="_blank" rel="noopener"><span class="en">Open ↗</span><span class="zh">打开 ↗</span></a>
+                  <button type="button" data-copy="https://github.com/NateHu203">Copy</button>
+                  <a href="https://github.com/NateHu203" target="_blank" rel="noopener">Open ↗</a>
                 </div>
               </div></div>
             </li>
@@ -323,18 +298,18 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
               <div class="pop"><div class="pop-in">
                 <strong>LinkedIn<small>xinyuanhu03204</small></strong>
                 <div class="pop-act">
-                  <button type="button" data-copy="https://www.linkedin.com/in/xinyuanhu03204/"><span class="en">Copy</span><span class="zh">复制</span></button>
-                  <a href="https://www.linkedin.com/in/xinyuanhu03204/" target="_blank" rel="noopener"><span class="en">Open ↗</span><span class="zh">打开 ↗</span></a>
+                  <button type="button" data-copy="https://www.linkedin.com/in/xinyuanhu03204/">Copy</button>
+                  <a href="https://www.linkedin.com/in/xinyuanhu03204/" target="_blank" rel="noopener">Open ↗</a>
                 </div>
               </div></div>
             </li>
             <li class="ico">
               <button type="button" aria-label="Google Scholar" aria-haspopup="true"><svg class="brand" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg></button>
               <div class="pop"><div class="pop-in">
-                <strong>Google Scholar<small><span class="en">Publications</span><span class="zh">论文</span></small></strong>
+                <strong>Google Scholar<small>Publications</small></strong>
                 <div class="pop-act">
-                  <button type="button" data-copy="https://scholar.google.com/citations?user=M1hT0-EAAAAJ"><span class="en">Copy</span><span class="zh">复制</span></button>
-                  <a href="https://scholar.google.com/citations?user=M1hT0-EAAAAJ" target="_blank" rel="noopener"><span class="en">Open ↗</span><span class="zh">打开 ↗</span></a>
+                  <button type="button" data-copy="https://scholar.google.com/citations?user=M1hT0-EAAAAJ">Copy</button>
+                  <a href="https://scholar.google.com/citations?user=M1hT0-EAAAAJ" target="_blank" rel="noopener">Open ↗</a>
                 </div>
               </div></div>
             </li>
@@ -343,8 +318,8 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
               <div class="pop"><div class="pop-in">
                 <strong>Email<small>natehu@g.harvard.edu</small></strong>
                 <div class="pop-act">
-                  <button type="button" data-copy="natehu@g.harvard.edu"><span class="en">Copy</span><span class="zh">复制</span></button>
-                  <a href="mailto:natehu@g.harvard.edu"><span class="en">Open ↗</span><span class="zh">打开 ↗</span></a>
+                  <button type="button" data-copy="natehu@g.harvard.edu">Copy</button>
+                  <a href="mailto:natehu@g.harvard.edu">Open ↗</a>
                 </div>
               </div></div>
             </li>
@@ -353,77 +328,77 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 
         <article class="card" data-k="harvard" style="--c:20">
           <div class="tag">2026 – 2028</div>
-          <h2><span class="en">SM in Data Science, Harvard</span><span class="zh">哈佛大学 数据科学硕士</span></h2>
-          <p><span class="en">At the Harvard Griffin Graduate School of Arts and Sciences. This semester:</span><span class="zh">就读于哈佛 Griffin 文理研究生院。这学期在上：</span></p>
+          <h2>SM in Data Science, Harvard</h2>
+          <p>At the Harvard Griffin Graduate School of Arts and Sciences. This semester:</p>
           <ul class="rows">
-            <li><span class="en">Advanced Practical Data Science</span><span class="zh">高级实用数据科学</span><span class="r">AC 215</span></li>
-            <li><span class="en">Computing at Scale</span><span class="zh">大规模计算</span><span class="r">CS 2420</span></li>
-            <li><span class="en">Stochastic Methods</span><span class="zh">随机方法</span><span class="r">AM 207</span></li>
-            <li><span class="en">Robotic Manipulation</span><span class="zh">机器人操作</span><span class="r">MIT 6.4212</span></li>
-            <li><span><span class="en">ScriptCue</span><span class="zh">ScriptCue</span><small><span class="en">Class project: short-form video scripts guided by engagement</span><span class="zh">课程项目：以互动数据引导的短视频脚本生成</span></small></span></li>
+            <li>Advanced Practical Data Science<span class="r">AC 215</span></li>
+            <li>Computing at Scale<span class="r">CS 2420</span></li>
+            <li>Stochastic Methods<span class="r">AM 207</span></li>
+            <li>Robotic Manipulation<span class="r">MIT 6.4212</span></li>
+            <li><span>ScriptCue<small>Class project: short-form video scripts guided by engagement</small></span></li>
           </ul>
         </article>
 
         <article class="card" data-k="research" style="--c:310">
-          <div class="tag"><span class="en">Research · Tsinghua University</span><span class="zh">研究 · 清华大学</span></div>
-          <h2><span class="en">How language models reason, and what it costs</span><span class="zh">语言模型如何推理，代价是什么</span></h2>
-          <p><span class="en">Three projects as a research assistant to Prof. Fengli Xu.</span><span class="zh">在徐丰力教授指导下做研究助理期间的三个项目。</span></p>
+          <div class="tag">Research · Tsinghua University</div>
+          <h2>How language models reason, and what it costs</h2>
+          <p>Three projects as a research assistant to Prof. Fengli Xu.</p>
           <ul class="rows">
-            <li><span>Division-of-Thoughts<small><span class="en">Edge-cloud LLM collaboration: split a task, keep the easy parts on the device, send the hard parts to the cloud. ACM WWW 2025, second author.</span><span class="zh">端云协同的大模型框架：把任务拆开，简单的留在端侧，难的交给云端。ACM WWW 2025，第二作者。</span></small></span></li>
-            <li><span><span class="en">Reinforced reasoning</span><span class="zh">强化推理</span><small><span class="en">A survey of the methods that strengthen reasoning in large language models.</span><span class="zh">关于增强大语言模型推理能力的方法综述。</span></small></span></li>
-            <li><span>LIMP<small><span class="en">Intent-aware mobility prediction: schema-based agentic workflows that bring human reasoning into the model.</span><span class="zh">意图感知的出行预测：用基于 schema 的智能体工作流把人的推理方式带进模型。</span></small></span></li>
+            <li><span>Division-of-Thoughts<small>Edge-cloud LLM collaboration: split a task, keep the easy parts on the device, send the hard parts to the cloud. ACM WWW 2025, second author.</small></span></li>
+            <li><span>Reinforced reasoning<small>A survey of the methods that strengthen reasoning in large language models.</small></span></li>
+            <li><span>LIMP<small>Intent-aware mobility prediction: schema-based agentic workflows that bring human reasoning into the model.</small></span></li>
           </ul>
         </article>
 
         <article class="card" data-k="emory" style="--c:215">
-          <div class="tag"><span class="en">Atlanta, Georgia</span><span class="zh">佐治亚州 亚特兰大</span></div>
-          <h2><span class="en">B.S. in Data Science and Computer Science, Emory</span><span class="zh">埃默里大学 数据科学与计算机科学 理学学士</span></h2>
+          <div class="tag">Atlanta, Georgia</div>
+          <h2>B.S. in Data Science and Computer Science, Emory</h2>
           <div class="nums">
             <div><b>3.99</b><span>GPA</span></div>
-            <div><b>7</b><span class="en">People on the capstone team I led</span><span class="zh">我带领的毕业设计团队人数</span></div>
+            <div><b>7</b>People on the capstone team I led</div>
           </div>
           <ul class="rows">
-            <li><span class="en">Teaching assistant</span><span class="zh">助教</span><span class="r"><span class="en">Multiple semesters</span><span class="zh">多个学期</span></span></li>
-            <li><span class="en">Capstone</span><span class="zh">毕业设计</span><span class="r">MediTrack</span></li>
+            <li>Teaching assistant<span class="r">Multiple semesters</span></li>
+            <li>Capstone<span class="r">MediTrack</span></li>
           </ul>
         </article>
 
         <article class="card" data-k="meditrack" style="--c:140">
-          <div class="tag"><span class="en">Capstone at Emory · Team lead</span><span class="zh">埃默里毕业设计 · 队长</span></div>
-          <h2><span class="en">A clinic app that works without a signal</span><span class="zh">没有信号也能用的诊所应用</span></h2>
-          <p><span class="en">MediTrack is an offline-first progressive web app for farmworker clinics, where connectivity can’t be assumed. I led the seven-person team that built and deployed it.</span><span class="zh">MediTrack 是一个面向农场工人诊所的离线优先 PWA，那里的网络并不总是可靠。我带领七人团队完成了开发和部署。</span></p>
+          <div class="tag">Capstone at Emory · Team lead</div>
+          <h2>A clinic app that works without a signal</h2>
+          <p>MediTrack is an offline-first progressive web app for farmworker clinics, where connectivity can’t be assumed. I led the seven-person team that built and deployed it.</p>
           <ul class="rows">
-            <li><span class="en">Team</span><span class="zh">团队</span><span class="r"><span class="en">7 people</span><span class="zh">7 人</span></span></li>
-            <li><span class="en">Built as</span><span class="zh">形态</span><span class="r"><span class="en">Offline-first PWA</span><span class="zh">离线优先 PWA</span></span></li>
-            <li><span class="en">Live at</span><span class="zh">线上地址</span><a class="link r" href="https://emorymeditrack.vercel.app" rel="noopener">emorymeditrack.vercel.app</a></li>
+            <li>Team<span class="r">7 people</span></li>
+            <li>Built as<span class="r">Offline-first PWA</span></li>
+            <li>Live at<a class="link r" href="https://emorymeditrack.vercel.app" rel="noopener">emorymeditrack.vercel.app</a></li>
           </ul>
         </article>
 
         <article class="card" data-k="edf" style="--c:55">
-          <div class="tag"><span class="en">Électricité de France · Jun – Aug 2025</span><span class="zh">法国电力集团 · 2025 年 6 – 8 月</span></div>
-          <h2><span class="en">A news monitor that learns from its analysts</span><span class="zh">会向分析师学习的新闻监测系统</span></h2>
-          <p><span class="en">As an AI software engineering intern, I shipped a pipeline that reads the daily news and surfaces industrial electrification projects. A feedback loop studies analysts’ corrections and rewrites its own classification logic.</span><span class="zh">作为 AI 软件工程实习生，我上线了一条每天阅读新闻、筛出工业电气化项目的管线。它会分析分析师的修正，反过来改进自己的分类逻辑。</span></p>
+          <div class="tag">Électricité de France · Jun – Aug 2025</div>
+          <h2>A news monitor that learns from its analysts</h2>
+          <p>As an AI software engineering intern, I shipped a pipeline that reads the daily news and surfaces industrial electrification projects. A feedback loop studies analysts’ corrections and rewrites its own classification logic.</p>
           <div class="nums">
-            <div><b>−60%</b><span class="en">Analyst review time</span><span class="zh">分析师审阅时间</span></div>
-            <div><b>95%+</b><span class="en">Classification accuracy</span><span class="zh">分类准确率</span></div>
-            <div><b>−21%</b><span class="en">Processing cost</span><span class="zh">处理成本</span></div>
-            <div><b><span class="en">Beijing</span><span class="zh">北京</span></b><span class="en">Working with teams in France</span><span class="zh">与法国团队协作</span></div>
+            <div><b>−60%</b>Analyst review time</div>
+            <div><b>95%+</b>Classification accuracy</div>
+            <div><b>−21%</b>Processing cost</div>
+            <div><b>Beijing</b>Working with teams in France</div>
           </div>
         </article>
 
         <article class="card" data-k="ysten" style="--c:285">
-          <div class="tag"><span class="en">YSTen Technology · May – Jul 2023</span><span class="zh">易视腾科技 · 2023 年 5 – 7 月</span></div>
-          <h2><span class="en">Faster answers from viewership data</span><span class="zh">让收视数据更快给出答案</span></h2>
-          <p><span class="en">As a data intelligence intern in Beijing, I designed core KPIs in Python and rewrote SQL queries over large-scale viewership databases.</span><span class="zh">在北京做数据智能实习生，用 Python 设计核心指标，并重写了大规模收视数据库上的 SQL 查询。</span></p>
+          <div class="tag">YSTen Technology · May – Jul 2023</div>
+          <h2>Faster answers from viewership data</h2>
+          <p>As a data intelligence intern in Beijing, I designed core KPIs in Python and rewrote SQL queries over large-scale viewership databases.</p>
           <div class="nums">
-            <div><b>−21%</b><span class="en">Query compute time</span><span class="zh">查询计算时间</span></div>
-            <div><b>−15%</b><span class="en">Memory usage</span><span class="zh">内存占用</span></div>
+            <div><b>−21%</b>Query compute time</div>
+            <div><b>−15%</b>Memory usage</div>
           </div>
         </article>
 
         <article class="card" data-k="beijing" style="--c:90">
           <div class="tag">39.90° N, 116.41° E</div>
-          <h2><span class="en">Beijing, then Atlanta, then Cambridge</span><span class="zh">北京，亚特兰大，然后剑桥</span></h2>
+          <h2>Beijing, then Atlanta, then Cambridge</h2>
           <div class="map">
             <svg viewBox="0 6 600 326" role="img" aria-label="World map with a dashed route from Beijing to Atlanta to Cambridge">
               <path class="land" d="M391,233L392,237L383,260L377,260L376,253L379,248L379,239L386,235L389,230ZM576,234L580,236L580,246L584,249L584,254L588,260L588,267L583,275L572,289L563,292L553,290L553,286L548,283L547,277L542,275L532,277L526,280L518,281L514,283L509,281L512,277L512,258L515,252L529,247L535,240L544,234L546,236L555,227L564,230L560,236L566,242L570,242L575,226ZM560,204L563,209L568,206L581,211L588,223L592,226L586,225L581,219L576,223L569,219L567,214L559,210L553,204ZM503,215L497,211L489,197L482,190L486,190L493,197L499,201L504,209ZM528,197L524,211L512,208L510,203L511,197L514,197L526,186L530,189L526,194ZM555,115L556,120L539,123L542,129L537,124L541,119L547,119L551,113L549,106L555,111ZM287,67L288,73L292,79L293,84L281,86L284,83L285,76L281,71L283,67ZM382,106L383,114L392,116L389,107L392,106L382,98L387,97L383,93L376,98ZM575,54L575,54L572,54L579,58L573,61L571,64L567,63L560,64L567,75L565,76L565,84L555,74L553,69L555,68L558,62L556,59L553,63L549,60L546,61L545,65L526,66L522,75L535,79L539,89L537,101L532,101L527,109L534,116L535,120L530,122L527,114L521,109L516,111L515,106L510,112L518,116L516,121L524,128L526,132L522,145L518,149L509,152L504,151L500,157L507,166L509,175L501,182L501,179L490,171L489,179L492,184L498,190L499,199L494,195L490,185L487,182L488,175L484,162L478,164L477,159L470,149L462,152L451,165L451,178L446,183L444,181L437,165L434,152L430,153L420,143L411,143L403,142L401,139L397,140L391,137L388,132L384,132L386,137L392,146L397,146L401,140L401,144L409,150L405,157L401,162L388,169L378,172L376,163L368,152L368,149L359,136L355,135L364,151L365,158L369,165L378,173L379,177L393,174L390,186L385,195L372,208L369,217L372,227L372,236L370,240L360,248L361,253L360,258L356,261L354,267L345,278L340,281L334,280L329,283L326,280L326,275L321,265L319,253L315,240L319,230L318,221L315,213L309,204L311,195L309,191L303,192L300,187L288,191L284,190L277,192L266,184L262,176L259,173L257,168L259,164L260,155L258,153L264,141L273,132L275,124L280,119L287,120L294,117L309,115L313,124L321,127L328,131L331,126L347,130L357,129L359,118L357,116L353,118L343,116L340,110L345,106L356,104L362,106L368,105L367,103L358,97L361,92L356,93L357,96L353,99L352,95L347,94L342,103L345,106L334,108L336,113L332,116L327,108L327,105L315,96L314,99L325,108L322,113L320,109L315,106L308,99L303,101L297,102L293,106L292,112L288,116L281,118L275,116L274,102L277,100L288,101L289,95L283,89L289,89L298,82L300,79L307,77L306,70L309,69L308,74L310,77L316,78L328,74L330,66L338,65L337,63L329,64L325,59L332,53L326,52L325,55L320,58L319,61L322,64L319,67L318,72L314,74L309,65L305,68L301,67L300,60L308,55L314,48L321,44L328,42L334,41L337,43L347,46L353,48L355,50L352,52L344,50L347,55L361,50L358,47L362,47L364,50L373,46L374,47L381,46L383,44L397,47L391,42L394,38L398,38L398,41L404,47L403,51L407,48L400,41L409,39L409,37L418,36L416,34L424,32L434,32L434,30L448,31L454,34L450,36L457,37L460,37L472,38L471,37L480,38L482,40L488,42L487,40L499,41L498,38L512,39L520,42L529,42L535,45L546,45L550,46L548,44L562,45L565,46L575,54ZM18,46L18,46L18,46L26,52L16,55L10,52L8,54L8,54L18,46ZM154,45L157,49L163,44L168,45L166,49L158,51L154,54L149,56L138,62L135,66L137,70L142,71L147,74L152,74L151,81L152,83L156,80L156,76L163,71L162,67L165,64L166,59L173,59L178,62L177,66L179,68L186,63L189,71L188,72L194,76L195,81L186,85L175,85L165,93L174,88L176,94L184,95L173,101L171,98L164,100L163,105L158,106L151,113L149,119L143,123L136,130L137,139L134,143L131,132L120,132L120,134L110,133L104,138L100,150L103,158L105,160L113,157L115,153L121,152L116,165L125,165L127,167L125,175L129,181L133,179L138,182L141,177L149,173L149,176L156,177L168,177L167,179L177,188L186,189L189,192L194,202L205,207L212,208L221,214L222,223L214,234L213,247L210,255L201,258L198,262L198,268L188,283L181,282L185,287L182,292L176,292L177,296L172,297L176,301L171,309L175,311L171,319L174,323L170,326L162,323L158,314L159,311L156,310L157,304L155,288L156,277L154,251L153,244L141,236L132,218L129,213L132,208L130,207L131,200L137,193L137,186L134,181L132,184L126,183L121,178L117,172L111,169L104,164L100,165L88,159L84,154L84,149L76,134L76,129L72,132L78,147L73,144L70,139L69,125L64,122L62,111L64,102L69,96L71,90L75,88L69,84L69,75L69,68L65,68L61,65L52,62L49,64L38,66L24,73L10,76L28,69L23,64L22,61L28,57L36,56L38,54L31,55L28,52L36,50L39,51L38,48L48,43L59,41L63,43L75,43L84,46L99,43L101,45L106,44L117,47L117,48L130,46L131,48L146,48L146,44L151,40ZM125,38L128,39L133,38L137,39L136,42L139,44L135,46L131,45L118,47L115,44L123,43L115,43L114,41L118,39ZM165,38L172,37L172,40L177,38L188,43L190,45L187,46L196,50L191,54L188,51L185,52L188,55L187,58L182,56L185,60L181,59L173,55L168,55L169,53L176,53L179,48L173,43L169,44L158,43L158,39L163,37ZM203,21L211,22L195,26L187,27L188,28L177,32L165,32L170,28L175,27L171,23L180,21L183,22L189,21ZM257,20L264,21L262,22L250,22L259,23L261,24L271,23L275,23L268,25L264,28L266,31L264,36L256,39L259,42L254,41L252,43L258,43L249,47L243,47L238,50L229,53L223,58L221,64L213,62L209,56L208,49L215,44L210,45L209,41L211,39L208,33L205,32L194,32L191,28L202,27L200,25L216,22L222,23L226,22L233,23L231,21L235,21L247,20Z"/>
@@ -434,30 +409,36 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
               <circle class="ring" cx="161.7" cy="103.2" r="6"/>
               <circle class="here" cx="161.7" cy="103.2" r="6.5"/>
             </svg>
-            <span class="pin" style="left:84.45%;top:31.56%;transform:translate(-50%,11px)"><span class="en">Beijing</span><span class="zh">北京</span></span>
-            <span class="pin" style="left:21.97%;top:35.95%;transform:translate(-55%,11px)"><span class="en">Atlanta</span><span class="zh">亚特兰大</span></span>
-            <span class="pin" style="left:26.95%;top:29.82%;transform:translate(12px,-60%)"><span class="en">Cambridge</span><span class="zh">剑桥</span></span>
+            <span class="pin" style="left:84.45%;top:31.56%;transform:translate(-50%,11px)">Beijing</span>
+            <span class="pin" style="left:21.97%;top:35.95%;transform:translate(-55%,11px)">Atlanta</span>
+            <span class="pin" style="left:26.95%;top:29.82%;transform:translate(12px,-60%)">Cambridge</span>
           </div>
-          <p><span class="en">Home is Beijing. I think in two languages and tend to switch to Chinese when an idea gets too abstract.</span><span class="zh">家在北京。我用两种语言思考，想法太抽象的时候会切回中文。</span></p>
+          <p>Home is Beijing. I think in two languages and tend to switch to Chinese when an idea gets too abstract.</p>
           <ul class="rows">
-            <li><span class="en">Languages</span><span class="zh">语言</span><span class="r"><span class="en">English, Mandarin</span><span class="zh">中文、英文</span></span></li>
-            <li><span class="en">Countries visited</span><span class="zh">去过的国家</span><span class="r">20+</span></li>
+            <li>Languages<span class="r">English, Mandarin</span></li>
+            <li>Countries visited<span class="r">20+</span></li>
           </ul>
         </article>
 
         <article class="card" data-k="piano" style="--c:175">
-          <div class="tag"><span class="en">Off the clock</span><span class="zh">工作之外</span></div>
-          <h2><span class="en">Piano since age three</span><span class="zh">三岁开始弹琴</span></h2>
-          <p><span class="en">I’ve organized fundraising concerts along the way. Go on, play something: click the keys or use A to K.</span><span class="zh">也组织过慈善义演音乐会。来，弹两下：点琴键，或者用键盘 A 到 K。</span></p>
+          <div class="tag">Off the clock</div>
+          <h2>Piano since age three</h2>
+          <p>I’ve organized fundraising concerts along the way. Go on, play something: click the keys or use A to K.</p>
           <div class="keys" id="keys" role="group" aria-label="One playable octave"></div>
         </article>
 
+        <article class="card" data-k="tennis" style="--c:150">
+          <div class="tag">Off the clock</div>
+          <h2>Tennis, whenever there’s a court</h2>
+          <p>Always up for a hit. If you’re around Cambridge and want a rally, say hello.</p>
+        </article>
+
         <article class="card" data-k="hello" style="--c:350">
-          <div class="tag"><span class="en">Contact</span><span class="zh">联系</span></div>
-          <h2><span class="en">Let’s talk.</span><span class="zh">聊聊吧。</span></h2>
-          <p><span class="en">Document intelligence, agents, research, or a piano duet.</span><span class="zh">文档智能、智能体、研究，或者四手联弹。</span></p>
+          <div class="tag">Contact</div>
+          <h2>Let’s talk.</h2>
+          <p>Document intelligence, agents, research, or a piano duet.</p>
           <a class="mail" href="mailto:natehu@g.harvard.edu">natehu@g.harvard.edu</a>
-          <button class="act" id="copy" type="button"><span class="en">Copy email</span><span class="zh">复制邮箱</span></button>
+          <button class="act" id="copy" type="button">Copy email</button>
         </article>
 
       </div>
@@ -473,19 +454,9 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 (function(){
   var root=document.documentElement, chips=document.querySelectorAll('.chip'), cards=document.querySelectorAll('.card'),
       stage=document.getElementById('stage'), side=document.getElementById('side'), narrow=window.matchMedia('(max-width:900px)');
-  var current='intro', timer=null, still=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var current='intro', still=window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  /* make room: wrap every word of the sentences in a box (each Chinese character is its own word, with closing
-     punctuation kept on the one before it, and punctuation that follows a highlighted word stays glued to it) */
-  var CJK=/[㐀-鿿]/, CLOSE=/[，。、；：！？,.;:!?]/;
-  function words(text){
-    var out=[], prev='';
-    Array.from(text).forEach(function(c){
-      if(!out.length||(!CLOSE.test(c)&&(CJK.test(c)||CJK.test(prev)))) out.push(c); else out[out.length-1]+=c;
-      prev=c;
-    });
-    return out;
-  }
+  /* make room: wrap every word of the sentences in a box (punctuation that follows a highlighted word stays glued to it) */
   document.querySelectorAll('.say p').forEach(function(p){
     Array.from(p.childNodes).forEach(function(node){
       if(node.nodeType!==3||!node.nodeValue.trim()) return;
@@ -493,7 +464,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
       node.nodeValue.split(/(\s+)/).forEach(function(part,n){
         if(!part) return;
         if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(' ')); return; }
-        words(part).forEach(function(word,m){
+        [part].forEach(function(word,m){
           var w=document.createElement('span'); w.className='wd'; w.textContent=word;
           if(n===0&&m===0&&before&&before.nodeType===1&&before.classList.contains('chip')) glue=w; else frag.appendChild(w);
         });
@@ -530,7 +501,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   }
   function reveal(card){
     stopReveal();
-    if(still.matches) return;
+    if(still.matches||!card) return;
     var h=card.querySelector('h2'); if(!h) return;
     var host=Array.from(h.children).filter(function(el){ return el.offsetParent; })[0]||h;
     var text=host.textContent, col=getComputedStyle(h).color, chars=[];
@@ -538,7 +509,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
     text.split(/(\s+)/).forEach(function(part){
       if(!part) return;
       if(/^\s+$/.test(part)){ host.appendChild(document.createTextNode(' ')); return; }
-      words(part).forEach(function(word){
+      [part].forEach(function(word){
         var w=document.createElement('span'); w.className='tt-w';
         Array.from(word).forEach(function(ch){ var c=document.createElement('span'); c.className='tt-c'; c.textContent=ch; w.appendChild(c); chars.push(c); });
         host.appendChild(w);
@@ -566,15 +537,11 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
     ],{duration:end+260,easing:'ease-out',fill:'both'}));
     rv={host:host,text:text,frame:frame,anims:anims,timer:setTimeout(stopReveal,end+300)};
   }
-  /* after the layout moves, the word that was under the pointer is somewhere else; don't let whatever slid under
-     the pointer open by itself. Hover opens again once the pointer has actually moved. */
-  var lock=null, ptr={x:-1,y:-1};
-  addEventListener('pointermove',function(e){ if(lock&&Math.abs(e.clientX-lock.x)+Math.abs(e.clientY-lock.y)>6) lock=null; ptr.x=e.clientX; ptr.y=e.clientY; },{passive:true});
 
   // On narrow screens the card sits right under the sentence that holds the active word.
   function place(){
     if(!narrow.matches){ if(stage.parentNode!==side) side.appendChild(stage); return; }
-    var say=document.querySelector(root.dataset.lang==='zh'?'.say.zh':'.say.en');
+    var say=document.querySelector('.say');
     var chip=say.querySelector('.chip[data-k="'+current+'"]'), p=chip&&chip.closest('p');
     if(!p){ if(stage.parentNode!==side) side.appendChild(stage); return; }
     if(p.nextSibling!==stage) p.after(stage);
@@ -584,7 +551,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
     stopReveal();
     var idle=k==='intro', first=!narrow.matches&&idle!==root.hasAttribute('data-idle')?measure():null;
     current=k; root.toggleAttribute('data-idle',idle);
-    if(first){ glide(first); lock={x:ptr.x,y:ptr.y}; }
+    if(first) glide(first);
     chips.forEach(function(c){ c.setAttribute('aria-pressed', c.dataset.k===k?'true':'false'); });
     cards.forEach(function(c){
       var on=c.dataset.k===k; c.classList.toggle('on',on);
@@ -597,20 +564,14 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
       if(r.top>innerHeight*0.72) stage.scrollIntoView({behavior:'smooth',block:'nearest'});
     }
   }
-  chips.forEach(function(c){
-    c.addEventListener('click',function(){ clearTimeout(timer); show(c.dataset.k,true); });
-    c.addEventListener('pointerenter',function(e){ if(e.pointerType!=='mouse'||narrow.matches||lock) return; clearTimeout(timer); timer=setTimeout(function(){show(c.dataset.k);},110); });
-    c.addEventListener('pointerleave',function(){ clearTimeout(timer); });
-  });
-  /* back to the sentences alone: Esc, a click on empty space, or the pointer leaving the page for a moment */
+  /* a word opens on click and stays open: hovering opens nothing, and moving the pointer away closes nothing */
+  chips.forEach(function(c){ c.addEventListener('click',function(){ show(c.dataset.k,true); }); });
+  /* back to the sentences alone: click the open word again, press Esc, or click empty space */
   addEventListener('keydown',function(e){ if(e.key==='Escape'&&current!=='intro') show(current,true); });
   document.addEventListener('click',function(e){
     if(current==='intro'||narrow.matches||e.target.closest('.chip,.card,button,a,header,.wd')) return;
     show(current,true);
   });
-  var away=null;
-  document.documentElement.addEventListener('pointerleave',function(e){ if(e.pointerType!=='mouse'||narrow.matches) return; away=setTimeout(function(){ if(current!=='intro') show(current,true); },600); });
-  document.documentElement.addEventListener('pointerenter',function(){ clearTimeout(away); });
   try{ narrow.addEventListener('change',place); }catch(e){}
 
   /* clock */
@@ -630,18 +591,14 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   new MutationObserver(paint).observe(root,{attributes:true,attributeFilter:['data-theme']});
   paint();
 
-  /* language */
-  var btn=document.getElementById('lang');
-  function setLang(l){ stopReveal(); if(l==='zh') root.dataset.lang='zh'; else delete root.dataset.lang; root.lang=l==='zh'?'zh-CN':'en'; btn.textContent=l==='zh'?'EN':'中文'; place(); try{localStorage.setItem('nh-lang',l);}catch(e){} }
-  btn.addEventListener('click',function(){ setLang(root.dataset.lang==='zh'?'en':'zh'); });
-  var saved=null; try{ saved=localStorage.getItem('nh-lang'); }catch(e){}
-  if(saved==='zh') setLang('zh'); else place();
+  /* the page is English only now; forget a language choice saved by the earlier version */
+  try{ localStorage.removeItem('nh-lang'); }catch(e){}
+  place();
 
   /* copy */
   var copy=document.getElementById('copy'), copyHTML=copy.innerHTML;
   copy.addEventListener('click',function(){
-    var zh=root.dataset.lang==='zh';
-    var done=function(ok){ copy.textContent=ok?(zh?'已复制':'Copied'):(zh?'请手动复制':'Select the address to copy'); setTimeout(function(){copy.innerHTML=copyHTML;},1600); };
+    var done=function(ok){ copy.textContent=ok?'Copied':'Select the address to copy'; setTimeout(function(){copy.innerHTML=copyHTML;},1600); };
     try{ navigator.clipboard.writeText('natehu@g.harvard.edu').then(function(){done(true);},function(){done(false);}); }catch(e){ done(false); }
   });
 
@@ -656,8 +613,8 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
   document.querySelectorAll('[data-copy]').forEach(function(b){
     var keep=b.innerHTML;
     b.addEventListener('click',function(e){
-      e.stopPropagation(); var zh=root.dataset.lang==='zh';
-      var done=function(ok){ b.textContent=ok?(zh?'已复制':'Copied'):(zh?'复制失败':'Couldn’t copy'); setTimeout(function(){b.innerHTML=keep;},1400); };
+      e.stopPropagation();
+      var done=function(ok){ b.textContent=ok?'Copied':'Couldn’t copy'; setTimeout(function(){b.innerHTML=keep;},1400); };
       try{ navigator.clipboard.writeText(b.dataset.copy).then(function(){done(true);},function(){done(false);}); }catch(err){ done(false); }
     });
   });
