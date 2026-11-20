@@ -209,6 +209,92 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 .papers .big div{border-radius:14px;padding:12px 12px 11px;background:color-mix(in srgb,var(--bg) 45%,transparent);font-size:13.5px;line-height:1.3}
 .papers .big b{display:block;font-weight:600;font-size:clamp(1.4rem,2vw,1.8rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:5px;font-variant-numeric:tabular-nums;color:oklch(var(--sl) var(--sc) var(--c))}
 .papers .steps b{display:grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:oklch(var(--sl) var(--sc) var(--c));color:var(--on-solid);font-size:1.15rem}
+.papers .toon{display:block;width:100%;height:auto;border-radius:14px;background:color-mix(in srgb,var(--bg) 45%,transparent)}
+.toon .ic{fill:color-mix(in srgb,var(--bg) 70%,transparent);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.toon .ln{fill:none;stroke:var(--ink);stroke-opacity:.5;stroke-width:2.2;stroke-linecap:round}
+.toon .dash{fill:none;stroke:var(--ink);stroke-opacity:.4;stroke-width:1.2;stroke-dasharray:4 4}
+.toon .s{fill:oklch(var(--sl) var(--sc) var(--c))}
+.toon .k{fill:var(--ink)}
+.toon .tl{font-size:10.5px;font-weight:600;fill:var(--ink);opacity:.75}
+.toon .sm{font-size:9.5px}
+.toon .mid{text-anchor:middle}
+.toon .ok circle{fill:var(--ink)}
+.toon .ok path{fill:none;stroke:var(--bg);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sc .run{animation:sc-run 9s linear infinite}
+.sc .brief{transform-box:fill-box;transform-origin:center;animation:sc-brief 9s ease-in-out infinite}
+.sc .cand{transform-box:fill-box;transform-origin:center;animation:sc-cand 9s ease-in-out infinite backwards;animation-delay:var(--d,0s)}
+.sc .track{fill:var(--ink);opacity:.18}
+.sc .bar{fill:oklch(var(--sl) var(--sc) var(--c));transform-box:fill-box;transform-origin:left center;animation:sc-bar 9s ease-in-out infinite}
+.sc .lose{opacity:.35;animation:sc-lose 9s ease-in-out infinite}
+.sc .best{fill:none;stroke:oklch(var(--sl) var(--sc) var(--c));stroke-width:2.6;animation:sc-best 9s ease-in-out infinite}
+.sc .link{fill:none;stroke:oklch(var(--sl) var(--sc) var(--c));stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;animation:sc-link 9s ease-in-out infinite}
+.sc .screen{animation:sc-screen 9s ease-in-out infinite}
+.sc .lit{fill:oklch(var(--sl) var(--sc) var(--c));opacity:.3}
+.sc .play{fill:oklch(var(--sl) var(--sc) var(--c));transform-box:fill-box;transform-origin:center;animation:sc-play 9s ease-in-out infinite}
+.sc .heart{fill:oklch(var(--sl) var(--sc) var(--c));opacity:0;animation:sc-heart 9s ease-out infinite backwards;animation-delay:var(--d,0s)}
+@keyframes sc-run{0%,7%{opacity:0}10%,93%{opacity:1}100%{opacity:0}}
+@keyframes sc-brief{0%,9%,100%{transform:scale(1)}4%{transform:scale(1.08)}}
+@keyframes sc-cand{0%,10%{opacity:0;transform:scale(.6)}15%,100%{opacity:1;transform:scale(1)}}
+@keyframes sc-bar{0%,24%{transform:scaleX(0)}38%,100%{transform:scaleX(1)}}
+@keyframes sc-lose{0%,42%{opacity:1}48%,100%{opacity:.35}}
+@keyframes sc-best{0%,42%{opacity:0}47%,100%{opacity:1}}
+@keyframes sc-link{0%,49%{stroke-dashoffset:1}57%,100%{stroke-dashoffset:0}}
+@keyframes sc-screen{0%,56%{opacity:0}62%,100%{opacity:1}}
+@keyframes sc-play{0%,57%{transform:scale(0)}62%{transform:scale(1.25)}66%,100%{transform:scale(1)}}
+@keyframes sc-heart{0%,64%{opacity:0;transform:translate(0,0) scale(.4)}68%{opacity:1;transform:translate(0,-8px) scale(1)}84%,100%{opacity:0;transform:translate(var(--hx),-58px) scale(1.15)}}
+.sp .ball{transform:translateX(260px);animation:sp-ball 9s linear infinite}
+.sp .ghost{fill:none;stroke:oklch(var(--sl) var(--sc) var(--c));stroke-width:2;stroke-dasharray:3 3}
+.sp .d{transform-box:fill-box;transform-origin:center}
+.sp .dp{fill:none;stroke:oklch(var(--sl) var(--sc) var(--c));stroke-width:1.6}
+.sp .q{font-size:20px;font-weight:700;fill:var(--ink);text-anchor:middle;opacity:0;transform-box:fill-box;transform-origin:center;animation:sp-q 9s ease-in-out infinite}
+.sp .fin{transform-box:fill-box;transform-origin:center;animation:sp-ok 9s ease-in-out infinite}
+.sp .sm{font-size:9.5px}
+@keyframes sp-ball{0%{transform:translateX(0);opacity:0}4%,8%{transform:translateX(0);opacity:1}62%,93%{transform:translateX(260px);opacity:1}100%{transform:translateX(260px);opacity:0}}
+@keyframes sp-q{0%,44%{opacity:0;transform:scale(.4)}48%,57%{opacity:1;transform:scale(1)}61%,100%{opacity:0;transform:scale(1)}}
+@keyframes sp-ok{0%,63%{opacity:0;transform:scale(0)}67%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.sp .d1{animation:sp-d1 9s linear infinite}@keyframes sp-d1{0%,17.81%{opacity:0;transform:scale(0)}20.81%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.sp .d2{animation:sp-d2 9s linear infinite}@keyframes sp-d2{0%,26.12%{opacity:0;transform:scale(0)}29.12%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.sp .d3{animation:sp-d3 9s linear infinite}@keyframes sp-d3{0%,34.42%{opacity:0;transform:scale(0)}37.42%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.sp .d4{animation:sp-d4 9s linear infinite}@keyframes sp-d4{0%,42.73%{opacity:0;transform:scale(0)}45.73%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.sp .d5{animation:sp-d5 9s linear infinite}@keyframes sp-d5{0%,51.04%{opacity:0;transform:scale(0)}54.04%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.sp .d6{animation:sp-d6 9s linear infinite}@keyframes sp-d6{0%,59.35%{opacity:0;transform:scale(0)}62.35%,93%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.rb .lk{stroke:var(--ink);stroke-width:6;stroke-linecap:round}
+.rb .jt{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.rb .hand{fill:var(--ink)}
+.rb .bA{fill:oklch(var(--sl) var(--sc) var(--c))}
+.rb .bC{fill:var(--ink)}
+.rb .bB{fill:var(--bg);stroke:var(--ink);stroke-width:1.6}
+.rb .j1{transform:rotate(-98.81deg);animation:rb-j1 12s ease-in-out infinite}
+.rb .j2{transform:rotate(106.88deg);animation:rb-j2 12s ease-in-out infinite}
+.rb .j3{transform:rotate(-8.07deg);animation:rb-j3 12s ease-in-out infinite}
+@keyframes rb-j1{0%{transform:rotate(-98.81deg)}3%{transform:rotate(-98.81deg)}7.5%{transform:rotate(-73.97deg)}10.5%{transform:rotate(-60.65deg)}13.5%{transform:rotate(-73.97deg)}19%{transform:rotate(-35.33deg)}22%{transform:rotate(-29.18deg)}25%{transform:rotate(-35.33deg)}29.5%{transform:rotate(-100.29deg)}32.5%{transform:rotate(-82.35deg)}35.5%{transform:rotate(-100.29deg)}41%{transform:rotate(-34.16deg)}44%{transform:rotate(-33.65deg)}47%{transform:rotate(-34.16deg)}51.5%{transform:rotate(-122.37deg)}54.5%{transform:rotate(-110.63deg)}57.5%{transform:rotate(-122.37deg)}63%{transform:rotate(-57.74deg)}66%{transform:rotate(-33.64deg)}69%{transform:rotate(-57.74deg)}75%{transform:rotate(-98.81deg)}100%{transform:rotate(-98.81deg)}}
+@keyframes rb-j2{0%{transform:rotate(106.88deg)}3%{transform:rotate(106.88deg)}7.5%{transform:rotate(98.65deg)}10.5%{transform:rotate(106.65deg)}13.5%{transform:rotate(98.65deg)}19%{transform:rotate(37.33deg)}22%{transform:rotate(48.77deg)}25%{transform:rotate(37.33deg)}29.5%{transform:rotate(123.68deg)}32.5%{transform:rotate(135.05deg)}35.5%{transform:rotate(123.68deg)}41%{transform:rotate(25.2deg)}44%{transform:rotate(44.29deg)}47%{transform:rotate(25.2deg)}51.5%{transform:rotate(129.68deg)}54.5%{transform:rotate(146.65deg)}57.5%{transform:rotate(129.68deg)}63%{transform:rotate(48.86deg)}66%{transform:rotate(22.98deg)}69%{transform:rotate(48.86deg)}75%{transform:rotate(106.88deg)}100%{transform:rotate(106.88deg)}}
+@keyframes rb-j3{0%{transform:rotate(-8.07deg)}3%{transform:rotate(-8.07deg)}7.5%{transform:rotate(-24.69deg)}10.5%{transform:rotate(-46.01deg)}13.5%{transform:rotate(-24.69deg)}19%{transform:rotate(-2deg)}22%{transform:rotate(-19.59deg)}25%{transform:rotate(-2deg)}29.5%{transform:rotate(-23.39deg)}32.5%{transform:rotate(-52.7deg)}35.5%{transform:rotate(-23.39deg)}41%{transform:rotate(8.96deg)}44%{transform:rotate(-10.64deg)}47%{transform:rotate(8.96deg)}51.5%{transform:rotate(-7.31deg)}54.5%{transform:rotate(-36.02deg)}57.5%{transform:rotate(-7.31deg)}63%{transform:rotate(8.88deg)}66%{transform:rotate(10.67deg)}69%{transform:rotate(8.88deg)}75%{transform:rotate(-8.07deg)}100%{transform:rotate(-8.07deg)}}
+.rb .src,.rb .held{opacity:0}
+.rb .m{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-linecap:round;stroke-dasharray:1;animation:rb-m 12s ease-in-out infinite}
+@keyframes rb-m{0%,72%{stroke-dashoffset:1;opacity:1}77%,95%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.rb .done{transform-box:fill-box;transform-origin:left center;animation:rb-done 12s ease-in-out infinite}
+@keyframes rb-done{0%,77%{opacity:0;transform:scale(.6)}80%,95%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.rb .sA{animation:rb-sA 12s linear infinite}.rb .hA{animation:rb-hA 12s linear infinite}.rb .tA{animation:rb-tA 12s linear infinite}
+@keyframes rb-sA{0%{opacity:0}3%,10.5%{opacity:1}10.51%,100%{opacity:0}}
+@keyframes rb-hA{0%,10.5%{opacity:0}10.51%,22%{opacity:1}22.01%,100%{opacity:0}}
+@keyframes rb-tA{0%,22%{opacity:0}22.01%,95%{opacity:1}100%{opacity:0}}
+.rb .sC{animation:rb-sC 12s linear infinite}.rb .hC{animation:rb-hC 12s linear infinite}.rb .tC{animation:rb-tC 12s linear infinite}
+@keyframes rb-sC{0%{opacity:0}3%,32.5%{opacity:1}32.51%,100%{opacity:0}}
+@keyframes rb-hC{0%,32.5%{opacity:0}32.51%,44%{opacity:1}44.01%,100%{opacity:0}}
+@keyframes rb-tC{0%,44%{opacity:0}44.01%,95%{opacity:1}100%{opacity:0}}
+.rb .sB{animation:rb-sB 12s linear infinite}.rb .hB{animation:rb-hB 12s linear infinite}.rb .tB{animation:rb-tB 12s linear infinite}
+@keyframes rb-sB{0%{opacity:0}3%,54.5%{opacity:1}54.51%,100%{opacity:0}}
+@keyframes rb-hB{0%,54.5%{opacity:0}54.51%,66%{opacity:1}66.01%,100%{opacity:0}}
+@keyframes rb-tB{0%,66%{opacity:0}66.01%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){ .toon *{animation:none!important} }
+.papers .more{container-type:inline-size}
+.papers .big div{min-width:0;overflow-wrap:break-word;hyphens:auto}
+@container (max-width:400px){
+  .papers .steps{grid-auto-flow:row;grid-template-columns:1fr}
+  .papers .steps div{display:flex;align-items:center;gap:10px}
+  .papers .steps b{flex:none;margin:0}
+}
 .papers .more a{font-weight:600;text-decoration:none;justify-self:start}
 .papers .more a:hover{text-decoration:underline;text-underline-offset:3px}
 .rows li small{display:block;font-weight:400;font-size:14.5px;line-height:1.4;opacity:.7}
@@ -259,6 +345,27 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 .keys .b{position:absolute;top:0;height:58%;border-radius:4px 4px 8px 8px;background:#151617;transition:transform .12s,background .2s}
 .keys .w.on,.keys .b.on{background:oklch(var(--sl) var(--sc) var(--c));color:var(--on-solid);transform:translateY(3px)}
 
+.secs{margin-top:auto;display:grid;gap:10px}
+.sec{font-size:14.5px;font-weight:500;opacity:.66}
+.sec:not(:first-child){margin-top:10px}
+.secs .rows{margin-top:0}
+.courses{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.courses li{border-radius:14px;padding:11px 12px 12px;background:color-mix(in srgb,var(--bg) 45%,transparent);font-size:14.5px;line-height:1.3;font-weight:500}
+.courses b{display:block;font-size:13px;font-weight:600;letter-spacing:.02em;margin-bottom:3px;font-variant-numeric:tabular-nums;color:oklch(var(--sl) var(--sc) var(--c))}
+.court{position:relative;display:block;width:100%;margin-top:auto;border:0;padding:0;border-radius:20px;overflow:hidden;background:var(--bg);color:inherit;font:inherit;cursor:pointer;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.court svg{display:block;width:100%;height:auto}
+.court .turf{fill:oklch(var(--sl) var(--sc) var(--c) / .24)}
+.court .ln{fill:none;stroke:var(--ink);stroke-opacity:.55;stroke-width:1.5}
+.court .net{stroke:var(--ink);stroke-width:2.2;stroke-dasharray:2 3}
+.court .me{fill:oklch(var(--sl) var(--sc) var(--c))}
+.court .opp{fill:var(--ink)}
+.court .ball{fill:oklch(.9 .19 115);stroke:#111213;stroke-width:1.2}
+.court .shadow{fill:var(--ink);opacity:.18}
+.court-msg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;font-size:14.5px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--ink);color:var(--bg);transition:opacity .2s}
+.court.live{cursor:none}
+.court.live .court-msg{opacity:0}
+.court-hud{display:flex;justify-content:space-between;font-size:14.5px;font-weight:500;opacity:.84}
+.court-hud b{font-weight:600;font-variant-numeric:tabular-nums}
 @media (min-width:901px){ .card{min-height:clamp(420px,58vh,540px)} }
 @media (max-width:900px){
   main{grid-template-columns:minmax(0,1fr)}
@@ -383,13 +490,24 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
           <div class="tag">2026 – 2028</div>
           <h2>SM in Data Science, Harvard</h2>
           <p>At the Harvard Griffin Graduate School of Arts and Sciences. This semester:</p>
-          <ul class="rows">
-            <li>Advanced Practical Data Science<span class="r">AC 215</span></li>
-            <li>Computing at Scale<span class="r">CS 2420</span></li>
-            <li>Stochastic Methods<span class="r">AM 207</span></li>
-            <li>Robotic Manipulation<span class="r">MIT 6.4212</span></li>
-            <li><span>ScriptCue<small>Class project: short-form video scripts guided by engagement</small></span></li>
-          </ul>
+          <div class="secs">
+            <h3 class="sec">Courses</h3>
+            <ul class="courses">
+              <li><b>AC 215</b>Advanced Practical Data Science</li>
+              <li><b>CS 2420</b>Computing at Scale</li>
+              <li><b>AM 207</b>Stochastic Methods</li>
+              <li><b>MIT 6.4212</b>Robotic Manipulation</li>
+            </ul>
+            <h3 class="sec">Projects</h3>
+            <ul class="rows papers">
+              <li><details name="proj"><summary><span>ScriptCue<small>AC 215 · A campaign brief in, a ready-to-shoot video script out.</small></span><i aria-hidden="true"></i></summary>
+              <div class="more"><div class="flow" aria-hidden="true"><b>Brief</b><i>→</i><b>Candidates</b><i>→</i><b>Scored</b><i>→</i><b>Best script</b></div><svg class="toon sc" viewBox="0 0 360 178" role="img" aria-label="A campaign brief becomes three candidate scripts; each is scored, and the best one becomes a short video that collects likes"><g class="brief"><rect class="ic" x="14" y="48" width="62" height="74" rx="8"/><text class="tl mid" x="45" y="66">Brief</text><path class="ln" d="M25 78h40M25 88h32M25 98h40M25 108h24"/></g><rect class="ic" x="272" y="14" width="66" height="132" rx="12"/><path class="ln" d="M297 22h16"/><text class="tl sm mid" x="166" y="170">3 candidates, scored</text><text class="tl sm mid" x="305" y="170">Best script</text><g class="run"><path class="dash" d="M78 85L112 37M78 85H112M78 85L112 133"/><g class="lose"><g class="cand" style="--d:0s"><rect class="ic" x="114" y="18" width="104" height="38" rx="8"/><path class="ln" d="M124 29h62M124 37h44"/><rect class="track" x="124" y="45" width="84" height="4" rx="2"/><rect class="bar" x="124" y="45" width="34" height="4" rx="2"/></g></g><g class="cand" style="--d:0.25s"><rect class="ic" x="114" y="66" width="104" height="38" rx="8"/><path class="ln" d="M124 77h62M124 85h44"/><rect class="track" x="124" y="93" width="84" height="4" rx="2"/><rect class="bar" x="124" y="93" width="78" height="4" rx="2"/><rect class="best" x="114" y="66" width="104" height="38" rx="8"/></g><g class="lose"><g class="cand" style="--d:0.5s"><rect class="ic" x="114" y="114" width="104" height="38" rx="8"/><path class="ln" d="M124 125h62M124 133h44"/><rect class="track" x="124" y="141" width="84" height="4" rx="2"/><rect class="bar" x="124" y="141" width="52" height="4" rx="2"/></g></g><path class="link" pathLength="1" d="M222 85H268"/><g class="screen"><rect class="lit" x="278" y="30" width="54" height="110" rx="6"/><path class="ln" d="M286 108h38M286 118h28M286 128h34"/></g><path class="play" d="M297 62l18 11-18 11z"/><g transform="translate(322 128)"><path class="heart" style="--hx:-5px" d="M0 4C-7-1-4-6 0-3C4-6 7-1 0 4z"/><path class="heart" style="--hx:6px;--d:.45s" d="M0 4C-7-1-4-6 0-3C4-6 7-1 0 4z"/><path class="heart" style="--hx:-2px;--d:.9s" d="M0 4C-7-1-4-6 0-3C4-6 7-1 0 4z"/></g></g></svg><p>ScriptCue helps marketers and creators turn a campaign brief into a ready-to-shoot short-form video script, tailored to their audience, tone and engagement goal using real TikTok data.</p><p class="by">Team of four · AC 215, Fall 2026</p></div></details></li>
+              <li><details name="proj"><summary><span>Spatial LLM<small>CS 2420 · Reasoning about objects the camera can no longer see.</small></span><i aria-hidden="true"></i></summary>
+              <div class="more"><div class="flow" aria-hidden="true"><b>Watch</b><i>→</i><b>Write it down</b><i>→</i><b>Work it out</b></div><svg class="toon sp" viewBox="0 0 360 138" role="img" aria-label="A ball rolls across the camera view and out of the frame; its recorded positions are extended to work out where it is now"><defs><clipPath id="sp-in"><rect x="14" y="14" width="200" height="110"/></clipPath><clipPath id="sp-out"><rect x="214" y="0" width="146" height="138"/></clipPath></defs><rect class="ic" x="14" y="14" width="200" height="110" rx="10"/><rect class="dash" x="222" y="14" width="124" height="110" rx="10"/><text class="tl" x="25" y="31">Camera view</text><text class="tl" x="233" y="31">Out of view</text><circle class="ic" cx="150" cy="50" r="9"/><circle class="d d1 k" cx="80" cy="84" r="2.6"/><circle class="d d2 k" cx="120" cy="84" r="2.6"/><circle class="d d3 k" cx="160" cy="84" r="2.6"/><circle class="d d4 k" cx="200" cy="84" r="2.6"/><circle class="d d5 dp" cx="240" cy="84" r="3"/><circle class="d d6 dp" cx="280" cy="84" r="3"/><text class="tl sm mid" x="140" y="108">seen, written down</text><text class="tl sm mid" x="270" y="108">worked out</text><g clip-path="url(#sp-in)"><circle class="ball s" cx="40" cy="84" r="10"/></g><g clip-path="url(#sp-out)"><circle class="ball ghost" cx="40" cy="84" r="10"/></g><text class="q" x="236" y="64">?</text><g transform="translate(300 60)"><g class="ok fin"><circle r="7"/><path d="M-3 0l2.2 2.4L3.2-2.4"/></g></g></svg><div class="big"><div><b>5%</b>Model alone</div><div><b>67%</b>With a written record</div><div><b>~75%</b>Plus a zoomed second look</div></div><p>Improving how a small vision-language model reasons about objects that have left the camera’s view. Instead of answering from the last frame, it keeps a record of where each ball was and extends the path. Scores are on paired test videos.</p><p class="by">CS 2420, Fall 2026 · results so far</p></div></details></li>
+              <li><details name="proj"><summary><span>Tallest-tower robot<small>MIT 6.4212 · A robot arm that stacks as high as it safely can.</small></span><i aria-hidden="true"></i></summary>
+              <div class="more"><div class="flow" aria-hidden="true"><b>Pick</b><i>→</i><b>Check stability</b><i>→</i><b>Stack</b></div><svg class="toon rb" viewBox="0 0 360 172" role="img" aria-label="A robot arm picks up three blocks of different shapes one at a time and stacks them into the tallest tower that still stands"><path class="ln" d="M14 160H346"/><rect class="bA src sA" x="135" y="144" width="44" height="16" rx="2"/><rect class="bC src sC" x="101" y="140" width="30" height="20" rx="2"/><rect class="bB src sB" x="82" y="126" width="16" height="34" rx="2"/><rect class="bA tA" x="193" y="144" width="44" height="16" rx="2"/><rect class="bC tC" x="200" y="124" width="30" height="20" rx="2"/><rect class="bB tB" x="207" y="90" width="16" height="34" rx="2"/><path class="m" pathLength="1" d="M250 160V90M245 160h10M245 90h10"/><g class="done"><g transform="translate(270 100)" class="ok"><circle r="7"/><path d="M-3 0l2.2 2.4L3.2-2.4"/></g><text class="tl" x="262" y="124">Tallest tower</text><text class="tl" x="262" y="137">that still stands</text></g><path class="hand" d="M36 160l6-13h12l6 13z"/><g transform="translate(48 150)"><g class="j1"><path class="lk" d="M0 0H92"/><g transform="translate(92 0)"><g class="j2"><path class="lk" d="M0 0H92"/><g transform="translate(92 0)"><g class="j3"><rect class="bA held hA" x="-22" y="8" width="44" height="16" rx="2"/><rect class="bC held hC" x="-15" y="8" width="30" height="20" rx="2"/><rect class="bB held hB" x="-8" y="8" width="16" height="34" rx="2"/><path class="hand" d="M-9-2h18v5h-2v5h-3v-5h-8v5h-3v-5h-2z"/></g></g><circle class="jt" r="4.5"/></g></g><circle class="jt" r="5.5"/></g></svg><p>A Drake simulation of a Kuka iiwa arm that picks up blocks of different shapes and stacks the tallest tower that still stands, planning each placement with a stability lookahead.</p><p class="by">Team of three · MIT 6.4212, Fall 2026</p></div></details></li>
+            </ul>
+          </div>
         </article>
 
         <article class="card" data-k="research" style="--c:310">
@@ -486,7 +604,20 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
         <article class="card" data-k="tennis" style="--c:150">
           <div class="tag">Off the clock</div>
           <h2>Tennis, whenever there’s a court</h2>
-          <p>Always up for a hit. If you’re around Cambridge and want a rally, say hello.</p>
+          <p>Always up for a hit. If you’re around Cambridge and want a rally, say hello. Meanwhile, try one here.</p>
+          <button type="button" class="court" id="court" aria-label="Mini tennis rally. Press to serve, then move the pointer or use the left and right arrow keys to return the ball.">
+            <svg viewBox="0 0 320 200" aria-hidden="true">
+              <rect class="turf" width="320" height="200"/>
+              <path class="ln" d="M40 12h240v176H40zM64 12v176M256 12v176M64 56h192M64 144h192M160 56v88"/>
+              <path class="net" d="M28 100h264"/>
+              <rect class="opp" x="137" y="16.5" width="46" height="7" rx="3.5"/>
+              <rect class="me" x="137" y="176.5" width="46" height="7" rx="3.5"/>
+              <ellipse class="shadow" cx="160" cy="171" rx="5" ry="3"/>
+              <circle class="ball" cx="160" cy="171" r="5"/>
+            </svg>
+            <span class="court-msg">Tap to serve</span>
+          </button>
+          <div class="court-hud"><span>Rally <b id="rally">0</b></span><span>Best <b id="best">0</b></span></div>
         </article>
 
         <article class="card" data-k="hello" style="--c:350">
@@ -704,6 +835,73 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
     var k=e.key.toLowerCase(); if(MAP[k]===undefined||down[k]) return; down[k]=1; play(MAP[k]);
   });
   addEventListener('keyup',function(e){ down[e.key.toLowerCase()]=0; });
+
+  /* a rally on the tennis card: the far side always gets it back, you have to */
+  var court=document.getElementById('court');
+  if(court){
+    var cv=court.querySelector('svg'), cb=court.querySelector('.ball'), cs=court.querySelector('.shadow'), me=court.querySelector('.me'), opp=court.querySelector('.opp'),
+        msg=court.querySelector('.court-msg'), rallyEl=document.getElementById('rally'), bestEl=document.getElementById('best');
+    var L=52, R=268, TOP=20, BOT=180, RW=46, px=160, ox=160, live=false, ready=true, raf=0, rally=0, best=0, last=0, dir=0, fl=null;
+    try{ best=+localStorage.getItem('rally-best')||0; }catch(e){}
+    bestEl.textContent=best;
+    function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+    function draw(bx,by,h){
+      me.setAttribute('x',px-RW/2); opp.setAttribute('x',ox-RW/2);
+      cb.setAttribute('cx',bx); cb.setAttribute('cy',by-h*12); cb.setAttribute('r',5+h*2.5);
+      cs.setAttribute('cx',bx+h*5); cs.setAttribute('cy',by+h*3);
+    }
+    function send(x0,y0,up){
+      var x1=up?clamp(x0+(x0-px)/(RW/2)*90+(Math.random()-.5)*60,L,R):L+Math.random()*(R-L);
+      fl={x0:x0,y0:y0,x1:x1,y1:up?TOP:BOT,t:0,dur:Math.max(560,1150-rally*40),up:up,out:false};
+    }
+    function pock(){
+      try{
+        ctx=ctx||new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume();
+        var t=ctx.currentTime, o=ctx.createOscillator(), g=ctx.createGain(); o.type='triangle';
+        o.frequency.setValueAtTime(520,t); o.frequency.exponentialRampToValueAtTime(180,t+0.07);
+        g.gain.setValueAtTime(0.12,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.09);
+        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.1);
+      }catch(e){}
+    }
+    function end(text){
+      live=false; cancelAnimationFrame(raf); court.classList.remove('live'); msg.textContent=text;
+      if(rally>best){ best=rally; bestEl.textContent=best; try{ localStorage.setItem('rally-best',best); }catch(e){} }
+    }
+    function step(now){
+      if(!live) return;
+      if(current!=='tennis'){ end('Tap to serve'); ox=160; ready=true; draw(px,BOT-9,0); return; }
+      var dt=Math.min(now-last,50); last=now;
+      if(dir) px=clamp(px+dir*dt*0.42,L,R);
+      fl.t+=dt/fl.dur;
+      ox+=((fl.up?fl.x1:160)-ox)*Math.min(1,dt*0.008);
+      if(fl.t>=1){
+        if(fl.out){ if(fl.t>=1.3){ end(rally?'Rally of '+rally+'. Tap to serve again':'Missed. Tap to serve again'); return; } }
+        else if(fl.up){ ox=fl.x1; pock(); send(fl.x1,TOP,false); }
+        else if(Math.abs(fl.x1-px)<=RW/2+5){ rally++; rallyEl.textContent=rally; pock(); send(fl.x1,BOT,true); }
+        else fl.out=true;
+      }
+      var t=fl.t;
+      draw(fl.x0+(fl.x1-fl.x0)*t, fl.y0+(fl.y1-fl.y0)*t, t<1?Math.sin(Math.PI*t):0);
+      raf=requestAnimationFrame(step);
+    }
+    function serve(){
+      if(live) return;
+      rally=0; rallyEl.textContent=0; ox=160; live=true; ready=false; court.classList.add('live');
+      pock(); send(px,BOT-9,true); last=performance.now(); raf=requestAnimationFrame(step);
+    }
+    function track(e){
+      var r=cv.getBoundingClientRect(); px=clamp((e.clientX-r.left)/r.width*320,L,R);
+      if(!live){ if(ready) draw(px,BOT-9,0); else me.setAttribute('x',px-RW/2); }
+    }
+    court.addEventListener('pointermove',track);
+    court.addEventListener('pointerdown',track);
+    court.addEventListener('click',serve);
+    addEventListener('keydown',function(e){
+      if(current!=='tennis'||e.metaKey||e.ctrlKey||e.altKey) return;
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ dir=e.key==='ArrowLeft'?-1:1; e.preventDefault(); }
+    });
+    addEventListener('keyup',function(e){ if(e.key==='ArrowLeft'||e.key==='ArrowRight') dir=0; });
+  }
 })();
 </script>
 </body>
