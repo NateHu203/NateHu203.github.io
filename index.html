@@ -209,7 +209,7 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
 .papers .big div{border-radius:14px;padding:12px 12px 11px;background:color-mix(in srgb,var(--bg) 45%,transparent);font-size:13.5px;line-height:1.3}
 .papers .big b{display:block;font-weight:600;font-size:clamp(1.4rem,2vw,1.8rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:5px;font-variant-numeric:tabular-nums;color:oklch(var(--sl) var(--sc) var(--c))}
 .papers .steps b{display:grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:oklch(var(--sl) var(--sc) var(--c));color:var(--on-solid);font-size:1.15rem}
-.papers .toon{display:block;width:100%;height:auto;border-radius:14px;background:color-mix(in srgb,var(--bg) 45%,transparent)}
+.papers .toon,.card>.toon{display:block;width:100%;height:auto;border-radius:14px;background:color-mix(in srgb,var(--bg) 45%,transparent)}
 .toon .ic{fill:color-mix(in srgb,var(--bg) 70%,transparent);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
 .toon .ln{fill:none;stroke:var(--ink);stroke-opacity:.5;stroke-width:2.2;stroke-linecap:round}
 .toon .dash{fill:none;stroke:var(--ink);stroke-opacity:.4;stroke-width:1.2;stroke-dasharray:4 4}
@@ -400,7 +400,9 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
         <p>Hi, I’m <button class="chip" data-k="me" style="--c:115" aria-pressed="false">Xinyuan Hu</button>, you can call me Nate. I build AI
           <button class="chip" data-k="huddle" style="--c:258" aria-pressed="false">@ Huddle</button>,
           study data science
-          <button class="chip" data-k="harvard" style="--c:20" aria-pressed="false">@ Harvard</button>,
+          <button class="chip" data-k="harvard" style="--c:20" aria-pressed="false">@ Harvard</button>
+          and robotics
+          <button class="chip" data-k="mit" style="--c:235" aria-pressed="false">@ MIT</button>,
           and research how
           <button class="chip" data-k="research" style="--c:310" aria-pressed="false">language models reason</button>.</p>
         <p>Before that I spent four years (undergrad)
@@ -508,6 +510,17 @@ main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:c
               <div class="more"><div class="flow" aria-hidden="true"><b>Pick</b><i>→</i><b>Check stability</b><i>→</i><b>Stack</b></div><svg class="toon rb" viewBox="0 0 360 172" role="img" aria-label="A robot arm picks up three blocks of different shapes one at a time and stacks them into the tallest tower that still stands"><path class="ln" d="M14 160H346"/><rect class="bA src sA" x="135" y="144" width="44" height="16" rx="2"/><rect class="bC src sC" x="101" y="140" width="30" height="20" rx="2"/><rect class="bB src sB" x="82" y="126" width="16" height="34" rx="2"/><rect class="bA tA" x="193" y="144" width="44" height="16" rx="2"/><rect class="bC tC" x="200" y="124" width="30" height="20" rx="2"/><rect class="bB tB" x="207" y="90" width="16" height="34" rx="2"/><path class="m" pathLength="1" d="M250 160V90M245 160h10M245 90h10"/><g class="done"><g transform="translate(270 100)" class="ok"><circle r="7"/><path d="M-3 0l2.2 2.4L3.2-2.4"/></g><text class="tl" x="262" y="124">Tallest tower</text><text class="tl" x="262" y="137">that still stands</text></g><path class="hand" d="M36 160l6-13h12l6 13z"/><g transform="translate(48 150)"><g class="j1"><path class="lk" d="M0 0H92"/><g transform="translate(92 0)"><g class="j2"><path class="lk" d="M0 0H92"/><g transform="translate(92 0)"><g class="j3"><rect class="bA held hA" x="-22" y="8" width="44" height="16" rx="2"/><rect class="bC held hC" x="-15" y="8" width="30" height="20" rx="2"/><rect class="bB held hB" x="-8" y="8" width="16" height="34" rx="2"/><path class="hand" d="M-9-2h18v5h-2v5h-3v-5h-8v5h-3v-5h-2z"/></g></g><circle class="jt" r="4.5"/></g></g><circle class="jt" r="5.5"/></g></svg><p>A Drake simulation of a Kuka iiwa arm that picks up blocks of different shapes and stacks the tallest tower that still stands, planning each placement with a stability lookahead.</p><p class="by">Team of three · MIT 6.4212, Fall 2026</p></div></details></li>
             </ul>
           </div>
+        </article>
+        <article class="card" data-k="mit" style="--c:235">
+          <div class="tag">Fall 2026 · cross-registered from Harvard</div>
+          <h2>Robotic Manipulation at MIT</h2>
+          <p>I take MIT’s 6.4212 down the road from Harvard. For the final project, our team of three has a simulated robot arm build the tallest block tower that still stands.</p>
+          <svg class="toon rb" viewBox="0 0 360 172" role="img" aria-label="A robot arm picks up three blocks of different shapes one at a time and stacks them into the tallest tower that still stands"><path class="ln" d="M14 160H346"/><rect class="bA src sA" x="135" y="144" width="44" height="16" rx="2"/><rect class="bC src sC" x="101" y="140" width="30" height="20" rx="2"/><rect class="bB src sB" x="82" y="126" width="16" height="34" rx="2"/><rect class="bA tA" x="193" y="144" width="44" height="16" rx="2"/><rect class="bC tC" x="200" y="124" width="30" height="20" rx="2"/><rect class="bB tB" x="207" y="90" width="16" height="34" rx="2"/><path class="m" pathLength="1" d="M250 160V90M245 160h10M245 90h10"/><g class="done"><g transform="translate(270 100)" class="ok"><circle r="7"/><path d="M-3 0l2.2 2.4L3.2-2.4"/></g><text class="tl" x="262" y="124">Tallest tower</text><text class="tl" x="262" y="137">that still stands</text></g><path class="hand" d="M36 160l6-13h12l6 13z"/><g transform="translate(48 150)"><g class="j1"><path class="lk" d="M0 0H92"/><g transform="translate(92 0)"><g class="j2"><path class="lk" d="M0 0H92"/><g transform="translate(92 0)"><g class="j3"><rect class="bA held hA" x="-22" y="8" width="44" height="16" rx="2"/><rect class="bC held hC" x="-15" y="8" width="30" height="20" rx="2"/><rect class="bB held hB" x="-8" y="8" width="16" height="34" rx="2"/><path class="hand" d="M-9-2h18v5h-2v5h-3v-5h-8v5h-3v-5h-2z"/></g></g><circle class="jt" r="4.5"/></g></g><circle class="jt" r="5.5"/></g></svg>
+          <ul class="rows">
+            <li>Course<span class="r">MIT 6.4212</span></li>
+            <li>Simulator<span class="r">Drake</span></li>
+            <li>Robot<span class="r">Kuka iiwa, parallel-jaw gripper</span></li>
+          </ul>
         </article>
 
         <article class="card" data-k="research" style="--c:310">
